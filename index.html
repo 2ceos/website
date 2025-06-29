@@ -27,19 +27,16 @@
       flex-direction: column;
       min-height: 100vh;
       position: relative;
+      overflow-x: hidden;
       transition: background 0.4s ease, color 0.4s ease;
     }
     .fade-up {
       opacity: 0;
       transform: translateY(30px);
-      transition: opacity 1s ease, transform 1s ease;
-    }
-    .fade-up.show {
-      opacity: 1;
-      transform: translateY(0);
+      animation: fadeUp 1s ease forwards;
     }
     .floating-nav {
-      position: absolute;
+      position: fixed;
       top: 2rem;
       left: 50%;
       transform: translateX(-50%);
@@ -50,7 +47,7 @@
       backdrop-filter: blur(6px);
       display: flex;
       gap: 2rem;
-      z-index: 10;
+      z-index: 100;
     }
     .floating-nav a {
       text-decoration: none;
@@ -85,7 +82,7 @@
       justify-content: center;
       align-items: center;
       text-align: center;
-      padding: 4rem 2rem;
+      padding: 6rem 2rem 4rem;
     }
     .hero h2 {
       font-size: 2.8rem;
@@ -120,6 +117,12 @@
       font-size: 0.9rem;
       color: var(--accent);
     }
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
     @media (max-width: 600px) {
       .hero h2 {
         font-size: 2rem;
@@ -128,7 +131,6 @@
         flex-direction: column;
         gap: 0.75rem;
         padding: 1rem;
-        top: 1rem;
       }
       .floating-nav a {
         font-size: 0.95rem;
@@ -158,12 +160,5 @@
   <footer class="fade-up">
     &copy; 2025 2CEOS. All rights reserved.
   </footer>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      document.querySelectorAll('.fade-up').forEach(el => {
-        el.classList.add('show');
-      });
-    });
-  </script>
 </body>
 </html>
