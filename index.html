@@ -1,251 +1,137 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>2CEOS | Scaling Brands</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
+    /* Theme Variables */
     :root {
-      --bg: #0f0f0f;
-      --text: #f5f5f5;
-      --accent: #888;
-      --btn-bg: #f5f5f5;
-      --btn-text: #0f0f0f;
+      --bg: #ffffff;
+      --text: #111111;
+      --accent: #0052f5;
+      --nav-bg: rgba(255, 255, 255, 0.8);
+      --nav-text: #333333;
+    }
+    [data-theme="dark"] {
+      --bg: #121212;
+      --text: #e0e0e0;
+      --accent: #03d5ff;
+      --nav-bg: rgba(18, 18, 18, 0.8);
+      --nav-text: #cccccc;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Inter', sans-serif;
-    }
-
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Inter',sans-serif; }
     body {
       background: var(--bg);
       color: var(--text);
+      transition: background 0.4s ease, color 0.4s ease;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      min-height: 100vh;
       position: relative;
       overflow-x: hidden;
-      transition: background 0.4s ease, color 0.4s ease;
     }
 
-    .fade-up {
-      opacity: 0;
-      transform: translateY(30px);
-      animation: fadeUp 1s ease forwards;
-    }
-
-    .floating-nav-container {
+    /* Theme Toggle Button */
+    #theme-toggle {
       position: fixed;
-      top: 1.5rem;
-      width: 100%;
+      top: 1rem;
+      right: 1rem;
+      width: 48px;
+      height: 24px;
+      background: var(--nav-bg);
+      border-radius: 12px;
       display: flex;
-      justify-content: center;
+      align-items: center;
+      padding: 2px;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      transition: background 0.4s ease;
       z-index: 100;
     }
+    #theme-toggle .thumb {
+      width: 20px;
+      height: 20px;
+      background: var(--accent);
+      border-radius: 50%;
+      transition: transform 0.3s ease;
+    }
+    [data-theme="dark"] #theme-toggle .thumb {
+      transform: translateX(24px);
+    }
 
+    /* Simple Navigation */
+    .floating-nav-container {
+      position: fixed;
+      top: 1rem;
+      left: 50%;
+      transform: translateX(-50%);
+      width: auto;
+      z-index: 90;
+    }
     .floating-nav {
-      background: rgba(26, 26, 26, 0.9);
+      background: var(--nav-bg);
       padding: 0.75rem 2rem;
       border-radius: 999px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
       backdrop-filter: blur(6px);
       display: flex;
       gap: 2rem;
-      transition: box-shadow 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: background 0.4s ease;
     }
-
-    .floating-nav:hover {
-      box-shadow:
-        0 0 8px rgba(255, 255, 255, 0.3),
-        0 0 3px 2px rgba(255, 255, 255, 0.4);
-    }
-
     .floating-nav a {
+      color: var(--nav-text);
       text-decoration: none;
-      color: var(--accent);
       font-weight: 500;
       transition: color 0.3s ease;
     }
-
     .floating-nav a:hover {
-      color: var(--text);
+      color: var(--accent);
     }
 
-    /* -------------------------- */
-    /* Liquid Glass Switcher CSS */
-    /* -------------------------- */
-    body {
-      /* ensure backdrop filters work */
-      background-clip: padding-box;
-    }
-
-    .switcher {
-      position: fixed;
-      top: 1.5rem;
-      right: 1.5rem;
-      z-index: 101;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      width: 244px;
-      height: 70px;
-      padding: 8px 12px 10px;
-      border: none;
-      border-radius: 99em;
-      background-color: rgba(187,188,188,0.12);
-      backdrop-filter: blur(8px) saturate(150%);
-      box-shadow:
-        inset 0 0 0 1px rgba(255,255,255,0.1),
-        inset 1.8px 3px 0px -2px rgba(255,255,255,0.9),
-        inset -2px -2px 0px -2px rgba(255,255,255,0.8),
-        inset -3px -8px 1px -6px rgba(255,255,255,0.6),
-        inset -0.3px -1px 4px 0px rgba(0,0,0,0.12),
-        inset -1.5px 2.5px 0px -2px rgba(0,0,0,0.2),
-        inset 0px 3px 4px -2px rgba(0,0,0,0.2),
-        inset 2px -6.5px 1px -4px rgba(0,0,0,0.1),
-        0px 1px 5px 0px rgba(0,0,0,0.1),
-        0px 6px 16px 0px rgba(0,0,0,0.08);
-      transition:
-        background-color 400ms cubic-bezier(1,0,0.4,1),
-        box-shadow 400ms cubic-bezier(1,0,0.4,1);
-    }
-
-    .switcher__legend,
-    .switcher__input {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      margin: -1px;
-      border: 0;
-      padding: 0;
-      white-space: nowrap;
-      clip: rect(0 0 0 0);
-      clip-path: inset(100%);
-      overflow: hidden;
-    }
-
-    .switcher__option {
-      --c: var(--text);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 0 16px;
-      width: 68px;
-      height: 100%;
-      border-radius: 99em;
-      transition: all 160ms;
-      cursor: pointer;
-    }
-
-    .switcher__option:hover {
-      --c: var(--accent);
-    }
-
-    .switcher__icon {
-      width: 100%;
-      transition: transform 200ms cubic-bezier(0.5,0,0,1);
-      fill: var(--c);
-    }
-
-    .switcher__option:hover .switcher__icon {
-      transform: scale(1.2);
-    }
-
-    .switcher__option:has(input:checked) .switcher__icon {
-      transform: scale(1);
-    }
-
-    .switcher::after {
-      content: '';
-      position: absolute;
-      top: 4px;
-      left: 4px;
-      width: 84px;
-      height: calc(100% - 10px);
-      border-radius: 99em;
-      background-color: rgba(187,188,188,0.36);
-      box-shadow:
-        inset 0 0 0 1px rgba(255,255,255,0.1),
-        inset 2px 1px 0px -1px rgba(255,255,255,0.9),
-        inset -1.5px -1px 0px -1px rgba(255,255,255,0.8),
-        inset -2px -6px 1px -5px rgba(255,255,255,0.6),
-        inset -1px 2px 3px -1px rgba(0,0,0,0.2),
-        inset 0px -4px 1px -2px rgba(0,0,0,0.1),
-        0px 3px 6px 0px rgba(0,0,0,0.08);
-      transition:
-        transform 400ms cubic-bezier(1,0,0.4,1),
-        box-shadow 400ms cubic-bezier(1,0,0.4,1);
-    }
-
-    .switcher:has(input[c-option="1"]:checked)::after {
-      transform: translateX(0);
-    }
-    .switcher:has(input[c-option="2"]:checked)::after {
-      transform: translateX(76px);
-    }
-    .switcher:has(input[c-option="3"]:checked)::after {
-      transform: translateX(152px);
-    }
-
-    @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+    /* Fade-up Animation */
+    .fade-up { opacity:0; transform:translateY(30px); animation:fadeUp 1s ease forwards; }
+    @keyframes fadeUp { to { opacity:1; transform:translateY(0); } }
   </style>
 </head>
 <body>
-  <!-- Liquid Glass Switcher -->
-  <fieldset class="switcher">
-    <legend class="switcher__legend">Choose theme</legend>
-    <label class="switcher__option">
-      <input class="switcher__input" type="radio" name="theme" value="light" c-option="1" checked />
-      <svg class="switcher__icon" viewBox="0 0 36 36"><path d="M18 12a6 6 0 1 1 0 12 6 6 0 0 1 0-12Z"/><path d="M17 6.038a1 1 0 1 1 2 0v3a1 1 0 0 1-2 0v-3Z"/></svg>
-    </label>
-    <label class="switcher__option">
-      <input class="switcher__input" type="radio" name="theme" value="dark" c-option="2" />
-      <svg class="switcher__icon" viewBox="0 0 36 36"><path d="M12.5 8.473a10.968 10.968 0 0 1 8.785-.97"/></svg>
-    </label>
-    <label class="switcher__option">
-      <input class="switcher__input" type="radio" name="theme" value="dim" c-option="3" />
-      <svg class="switcher__icon" viewBox="0 0 36 36"><path d="M5 21a1 1 0 0 1 1-1h24a1 1 0 1 1 0 2H6a1 1 0 0 1-1-1Z"/></svg>
-    </label>
-  </fieldset>
+  <!-- Theme Toggle -->
+  <div id="theme-toggle">
+    <div class="thumb"></div>
+  </div>
 
+  <!-- Navigation -->
   <div class="floating-nav-container fade-up">
-    <div class="floating-nav">
+    <nav class="floating-nav">
       <a href="#contact">Contact</a>
       <a href="#portfolio">Portfolio</a>
       <a href="#about">About Us</a>
-    </div>
+    </nav>
   </div>
+
   <header class="fade-up">
     <h1>2CEOS</h1>
   </header>
+
   <main class="hero fade-up">
     <h2>Design That Scales</h2>
     <p>At 2CEOS, we build high-converting digital brands for freelancers and startups with cutting-edge strategy and standout visuals.</p>
     <button>Get Started</button>
   </main>
+
   <footer class="fade-up">
     &copy; 2025 2CEOS. All rights reserved.
   </footer>
 
   <script>
-    const switcher = document.querySelector('.switcher');
-    const trackPrevious = (el) => {
-      const radios = el.querySelectorAll('input[type="radio"]');
-      let previousValue = null;
-      const initiallyChecked = el.querySelector('input[type="radio"]:checked');
-      if (initiallyChecked) previousValue = initiallyChecked.getAttribute('c-option');
-      radios.forEach(radio => {
-        radio.addEventListener('change', () => {
-          el.setAttribute('c-previous', previousValue || '');
-          previousValue = radio.getAttribute('c-option');
-        });
-      });
-    };
-    trackPrevious(switcher);
+    const toggle = document.getElementById('theme-toggle');
+    toggle.addEventListener('click', () => {
+      const html = document.documentElement;
+      const current = html.getAttribute('data-theme');
+      html.setAttribute('data-theme', current === 'light' ? 'dark' : 'light');
+    });
   </script>
 </body>
 </html>
