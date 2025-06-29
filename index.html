@@ -2,125 +2,306 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>2CEOS | Scaling Brands</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Monochrome Landing Page</title>
   <style>
+    :root {
+      --bg-dark: #111;
+      --text-dark: #f4f4f4;
+      --accent-dark: #aaa;
+      --btn-bg-dark: #f4f4f4;
+      --btn-text-dark: #111;
+
+      --bg-light: #ffffff;
+      --text-light: #111;
+      --accent-light: #555;
+      --btn-bg-light: #111;
+      --btn-text-light: #fff;
+    }
+
+    body[data-theme="dark"] {
+      --bg: var(--bg-dark);
+      --text: var(--text-dark);
+      --accent: var(--accent-dark);
+      --btn-bg: var(--btn-bg-dark);
+      --btn-text: var(--btn-text-dark);
+    }
+
+    body[data-theme="light"] {
+      --bg: var(--bg-light);
+      --text: var(--text-light);
+      --accent: var(--accent-light);
+      --btn-bg: var(--btn-bg-light);
+      --btn-text: var(--btn-text-light);
+    }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Helvetica Neue', sans-serif;
     }
+
     body {
-      background: #0f0f0f;
-      color: #f5f5f5;
-      display: flex;
-      flex-direction: column;
+      background: var(--bg);
+      color: var(--text);
       min-height: 100vh;
-      position: relative;
+      transition: background 0.4s ease, color 0.4s ease;
+      background: url('your-city-skyline.gif') no-repeat center center / cover;
+      backdrop-filter: blur(0px);
     }
-    .floating-nav {
-      position: absolute;
-      top: 2rem;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #1a1a1a;
-      padding: 0.75rem 2rem;
-      border-radius: 999px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+
+    .frosted {
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(12px);
+      border-radius: 1rem;
+      padding: 2rem;
+      margin: 1rem;
+      box-shadow: 0 4px 25px rgba(0,0,0,0.3);
+    }
+
+    header {
+      width: 100%;
+      padding: 2rem 0;
       display: flex;
-      gap: 2rem;
-      z-index: 10;
+      justify-content: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: transparent;
     }
-    .floating-nav a {
+
+    .nav-bar {
+      background: rgba(26, 26, 26, 0.8);
+      border-radius: 999px;
+      padding: 0.75rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(6px);
+    }
+
+    .nav-bar a {
       text-decoration: none;
-      color: #f5f5f5;
-      font-weight: 600;
+      color: var(--accent);
+      font-weight: 500;
       transition: color 0.3s ease;
     }
-    .floating-nav a:hover {
-      color: #ccc;
+
+    .nav-bar a:hover {
+      color: var(--text);
     }
-    header {
-      padding: 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid #333;
+
+    .theme-toggle {
+      cursor: pointer;
+      background: none;
+      border: 1px solid var(--accent);
+      padding: 0.4rem 0.8rem;
+      border-radius: 20px;
+      color: var(--accent);
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
     }
-    header h1 {
-      font-size: 1.5rem;
-      font-weight: 700;
+
+    .theme-toggle:hover {
+      background: var(--accent);
+      color: var(--bg);
     }
-    nav a {
-      color: #f5f5f5;
-      margin-left: 2rem;
-      text-decoration: none;
-      font-weight: 600;
+
+    section {
+      max-width: 960px;
+      margin: auto;
     }
+
     .hero {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 4rem 2rem;
       text-align: center;
+      padding: 5rem 2rem;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 1s ease, transform 1s ease;
     }
-    .hero h2 {
-      font-size: 2.5rem;
+
+    .hero.fade-in {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .hero h1 {
+      font-size: 3rem;
       margin-bottom: 1rem;
     }
+
     .hero p {
-      font-size: 1.1rem;
-      max-width: 600px;
-      margin-bottom: 2rem;
-      color: #aaa;
+      font-size: 1.2rem;
+      color: var(--accent);
     }
+
     .hero button {
-      background: #fff;
-      color: #000;
+      margin-top: 2rem;
       padding: 0.75rem 2rem;
+      font-size: 1rem;
+      background: var(--btn-bg);
+      color: var(--btn-text);
       border: none;
-      font-weight: 700;
+      border-radius: 6px;
       cursor: pointer;
-      border-radius: 8px;
-      transition: background 0.3s ease;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
+
     .hero button:hover {
-      background: #ccc;
+      transform: scale(1.1);
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
     }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin: 4rem 0;
+    }
+
+    .feature {
+      padding: 1.5rem;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(6px);
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .testimonial-carousel {
+      margin: 3rem 0;
+      text-align: center;
+    }
+
+    .testimonial-carousel blockquote {
+      font-style: italic;
+      margin: 1rem auto;
+      max-width: 600px;
+      color: var(--accent);
+    }
+
+    .email-form {
+      text-align: center;
+      margin: 3rem 0;
+    }
+
+    .email-form input[type="email"] {
+      padding: 0.75rem 1rem;
+      border-radius: 6px;
+      border: none;
+      margin-right: 0.5rem;
+      width: 250px;
+    }
+
+    .email-form button {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 6px;
+      background: var(--btn-bg);
+      color: var(--btn-text);
+      cursor: pointer;
+    }
+
     footer {
       text-align: center;
-      padding: 1.5rem;
-      border-top: 1px solid #333;
-      font-size: 0.9rem;
-      color: #777;
+      padding: 2rem;
+      color: var(--accent);
+    }
+
+    @media (max-width: 600px) {
+      .nav-bar {
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+      .hero h1 {
+        font-size: 2rem;
+      }
+      .email-form input[type="email"] {
+        width: 100%;
+        margin-bottom: 1rem;
+      }
     }
   </style>
 </head>
-<body>
-  <div class="floating-nav">
-    <a href="#contact">Contact</a>
-    <a href="#portfolio">Portfolio</a>
-    <a href="#about">About Us</a>
-  </div>
+<body data-theme="dark">
   <header>
-    <h1>2CEOS</h1>
-    <nav>
-      <a href="#services">Services</a>
-      <a href="#work">Work</a>
-      <a href="mailto:2ceosmarketing@gmail.com">Contact</a>
-    </nav>
+    <div class="nav-bar">
+      <a href="#">Home</a>
+      <a href="#">Features</a>
+      <a href="#">Contact</a>
+      <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
+    </div>
   </header>
-  <main class="hero">
-    <h2>Scaling Brands, One Strategy at a Time</h2>
-    <p>At 2CEOS, we empower freelance and e-commerce brands to scale profitably with sharp strategy, killer creative, and performance-first execution.</p>
-    <button>Work With Us</button>
-  </main>
+
+  <section class="hero frosted" id="hero">
+    <h1>Design Built Different</h1>
+    <p>Minimal, sleek, and modern UI design powered by simplicity and contrast.</p>
+    <button>Get Started</button>
+  </section>
+
+  <section class="features frosted">
+    <div class="feature">
+      <h3>Lightning Fast</h3>
+      <p>Optimized for speed and performance across devices.</p>
+    </div>
+    <div class="feature">
+      <h3>Fully Responsive</h3>
+      <p>Looks perfect on every screen — phone, tablet, or desktop.</p>
+    </div>
+    <div class="feature">
+      <h3>Modern Aesthetics</h3>
+      <p>Minimal color, maximum impact.</p>
+    </div>
+  </section>
+
+  <section class="testimonial-carousel frosted">
+    <h2>What People Say</h2>
+    <blockquote id="quote">“This layout changed the way I build websites.”</blockquote>
+  </section>
+
+  <section class="email-form frosted">
+    <h2>Stay Updated</h2>
+    <p>Sign up for future drops, updates, and announcements.</p>
+    <input type="email" placeholder="Enter your email" />
+    <button>Subscribe</button>
+  </section>
+
   <footer>
-    &copy; 2025 2CEOS. All rights reserved.
+    &copy; 2025 Monochrome. All rights reserved.
   </footer>
+
+  <script>
+    // Theme toggle logic
+    function toggleTheme() {
+      const body = document.body;
+      const current = body.getAttribute('data-theme');
+      body.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+    }
+
+    // Scroll fade-in
+    const hero = document.getElementById('hero');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('fade-in');
+        }
+      });
+    }, { threshold: 0.3 });
+    observer.observe(hero);
+
+    // Testimonial carousel
+    const quotes = [
+      "“This layout changed the way I build websites.”",
+      "“The monochrome vibe is straight fire.”",
+      "“Sleek, responsive, and powerful. 10/10.”"
+    ];
+    let quoteIndex = 0;
+    setInterval(() => {
+      quoteIndex = (quoteIndex + 1) % quotes.length;
+      document.getElementById('quote').textContent = quotes[quoteIndex];
+    }, 4000);
+  </script>
 </body>
 </html>
