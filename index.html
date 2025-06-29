@@ -67,6 +67,33 @@
     .floating-nav a:hover {
       color: var(--text);
     }
+    .glass-toggle {
+      position: fixed;
+      top: 1.5rem;
+      right: 1.5rem;
+      z-index: 101;
+      width: 70px;
+      height: 36px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 4px;
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+    }
+    .glass-toggle span {
+      width: 28px;
+      height: 28px;
+      background: #fff;
+      border-radius: 50%;
+      transition: transform 0.4s ease;
+    }
+    .glass-toggle.active span {
+      transform: translateX(34px);
+    }
     header {
       padding: 2rem;
       display: flex;
@@ -144,6 +171,9 @@
   </style>
 </head>
 <body>
+  <div class="glass-toggle" onclick="this.classList.toggle('active')">
+    <span></span>
+  </div>
   <div class="floating-nav-container fade-up">
     <div class="floating-nav">
       <a href="#contact">Contact</a>
