@@ -1,43 +1,98 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>2CEOs Button Example</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2CEOS | Scaling Brands</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
     body {
-      font-family: sans-serif;
+      background: #0f0f0f;
+      color: #f5f5f5;
       display: flex;
       flex-direction: column;
+      min-height: 100vh;
+    }
+    header {
+      padding: 2rem;
+      display: flex;
+      justify-content: space-between;
       align-items: center;
+      border-bottom: 1px solid #333;
+    }
+    header h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+    nav a {
+      color: #f5f5f5;
+      margin-left: 2rem;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .hero {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
       justify-content: center;
-      height: 100vh;
-      margin: 0;
-      background: #f5f5f5;
+      align-items: center;
+      padding: 4rem 2rem;
+      text-align: center;
     }
-    button {
-      padding: 15px 30px;
-      font-size: 18px;
-      background: #000;
-      color: #fff;
+    .hero h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+    .hero p {
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin-bottom: 2rem;
+      color: #aaa;
+    }
+    .hero button {
+      background: #fff;
+      color: #000;
+      padding: 0.75rem 2rem;
       border: none;
-      border-radius: 8px;
+      font-weight: 700;
       cursor: pointer;
-      transition: transform 0.2s ease, background 0.2s ease;
+      border-radius: 8px;
+      transition: background 0.3s ease;
     }
-    button:hover {
-      background: #333;
-      transform: scale(1.05);
+    .hero button:hover {
+      background: #ccc;
+    }
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      border-top: 1px solid #333;
+      font-size: 0.9rem;
+      color: #777;
     }
   </style>
 </head>
 <body>
-  <h1>Welcome to 2CEOs</h1>
-  <button onclick="openAboutUs()">is it bubblegum pink?</button>
-
-  <script>
-    function openAboutUs() {
-      window.location.href = '/aboutus';
-    }
-  </script>
+  <header>
+    <h1>2CEOS</h1>
+    <nav>
+      <a href="#services">Services</a>
+      <a href="#work">Work</a>
+      <a href="mailto:2ceosmarketing@gmail.com">Contact</a>
+    </nav>
+  </header>
+  <main class="hero">
+    <h2>Scaling Brands, One Strategy at a Time</h2>
+    <p>At 2CEOS, we empower freelance and e-commerce brands to scale profitably with sharp strategy, killer creative, and performance-first execution.</p>
+    <button>Work With Us</button>
+  </main>
+  <footer>
+    &copy; 2025 2CEOS. All rights reserved.
+  </footer>
 </body>
 </html>
