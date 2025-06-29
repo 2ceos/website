@@ -2,105 +2,73 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Monochrome Landing Page</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2CEOS | Scaling Brands</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-dark: #111;
-      --text-dark: #f4f4f4;
-      --accent-dark: #888;
-      --btn-bg-dark: #f4f4f4;
-      --btn-text-dark: #111;
-
-      --bg-light: #ffffff;
-      --text-light: #111;
-      --accent-light: #555;
-      --btn-bg-light: #111;
-      --btn-text-light: #fff;
-    }
-
-    body[data-theme="dark"] {
-      --bg: var(--bg-dark);
-      --text: var(--text-dark);
-      --accent: var(--accent-dark);
-      --btn-bg: var(--btn-bg-dark);
-      --btn-text: var(--btn-text-dark);
-    }
-
-    body[data-theme="light"] {
-      --bg: var(--bg-light);
-      --text: var(--text-light);
-      --accent: var(--accent-light);
-      --btn-bg: var(--btn-bg-light);
-      --btn-text: var(--btn-text-light);
+      --bg: #0f0f0f;
+      --text: #f5f5f5;
+      --accent: #888;
+      --btn-bg: #f5f5f5;
+      --btn-text: #0f0f0f;
     }
 
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Helvetica Neue', sans-serif;
+      font-family: 'Inter', sans-serif;
     }
-
     body {
       background: var(--bg);
       color: var(--text);
-      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      align-items: center;
+      min-height: 100vh;
+      position: relative;
       transition: background 0.4s ease, color 0.4s ease;
     }
-
-    header {
-      width: 100%;
-      padding: 2rem 0 4rem;
-      display: flex;
-      justify-content: center;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: transparent;
-    }
-
-    .nav-bar {
+    .floating-nav {
+      position: absolute;
+      top: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
       background: rgba(26, 26, 26, 0.9);
-      border-radius: 999px;
       padding: 0.75rem 2rem;
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
+      border-radius: 999px;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
       backdrop-filter: blur(6px);
+      display: flex;
+      gap: 2rem;
+      z-index: 10;
     }
-
-    .nav-bar a {
+    .floating-nav a {
       text-decoration: none;
       color: var(--accent);
       font-weight: 500;
       transition: color 0.3s ease;
     }
-
-    .nav-bar a:hover {
+    .floating-nav a:hover {
       color: var(--text);
     }
-
-    .theme-toggle {
-      cursor: pointer;
-      background: none;
-      border: 1px solid var(--accent);
-      padding: 0.4rem 0.8rem;
-      border-radius: 20px;
-      color: var(--accent);
-      font-size: 0.9rem;
-      transition: all 0.3s ease;
+    header {
+      padding: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #333;
     }
-
-    .theme-toggle:hover {
-      background: var(--accent);
-      color: var(--bg);
+    header h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
     }
-
+    nav a {
+      color: var(--text);
+      margin-left: 2rem;
+      text-decoration: none;
+      font-weight: 600;
+    }
     .hero {
       flex: 1;
       display: flex;
@@ -108,30 +76,26 @@
       justify-content: center;
       align-items: center;
       text-align: center;
-      padding: 3rem 1rem;
+      padding: 4rem 2rem;
       opacity: 0;
       transform: translateY(30px);
       transition: opacity 1s ease, transform 1s ease;
     }
-
     .hero.fade-in {
       opacity: 1;
       transform: translateY(0);
     }
-
-    .hero h1 {
-      font-size: 3rem;
+    .hero h2 {
+      font-size: 2.8rem;
       max-width: 800px;
       line-height: 1.2;
     }
-
     .hero p {
       font-size: 1.2rem;
       margin-top: 1rem;
       color: var(--accent);
       max-width: 600px;
     }
-
     .hero button {
       margin-top: 2rem;
       padding: 0.75rem 2rem;
@@ -143,70 +107,56 @@
       cursor: pointer;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-
     .hero button:hover {
       transform: scale(1.1);
       box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
     }
-
     footer {
       text-align: center;
       padding: 1.5rem;
+      border-top: 1px solid #333;
+      font-size: 0.9rem;
       color: var(--accent);
-      font-size: 0.875rem;
     }
-
     @media (max-width: 600px) {
-      .hero h1 {
+      .hero h2 {
         font-size: 2rem;
       }
-
-      .nav-bar {
+      .floating-nav {
         flex-direction: column;
         gap: 0.75rem;
         padding: 1rem;
         top: 1rem;
       }
-
-      .nav-bar a {
+      .floating-nav a {
         font-size: 0.95rem;
-      }
-
-      .theme-toggle {
-        margin-top: 0.5rem;
       }
     }
   </style>
 </head>
-<body data-theme="dark">
+<body>
+  <div class="floating-nav">
+    <a href="#contact">Contact</a>
+    <a href="#portfolio">Portfolio</a>
+    <a href="#about">About Us</a>
+  </div>
   <header>
-    <div class="nav-bar">
-      <a href="#">Home</a>
-      <a href="#">About</a>
-      <a href="#">Contact</a>
-      <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
-    </div>
+    <h1>2CEOS</h1>
+    <nav>
+      <a href="#services">Services</a>
+      <a href="#work">Work</a>
+      <a href="mailto:2ceosmarketing@gmail.com">Contact</a>
+    </nav>
   </header>
-
-  <section class="hero" id="hero">
-    <h1>Design Built Different</h1>
-    <p>Experience a minimalist landing page that focuses on bold simplicity and clean layout. Fully responsive, entirely monochrome.</p>
+  <main class="hero" id="hero">
+    <h2>Design That Scales</h2>
+    <p>At 2CEOS, we build high-converting digital brands for freelancers and startups with cutting-edge strategy and standout visuals.</p>
     <button>Get Started</button>
-  </section>
-
+  </main>
   <footer>
-    &copy; 2025 Monochrome. All rights reserved.
+    &copy; 2025 2CEOS. All rights reserved.
   </footer>
-
   <script>
-    // Theme toggle logic
-    function toggleTheme() {
-      const body = document.body;
-      const current = body.getAttribute('data-theme');
-      body.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
-    }
-
-    // Scroll fade-in animation
     const hero = document.getElementById('hero');
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -215,7 +165,6 @@
         }
       });
     }, { threshold: 0.3 });
-
     observer.observe(hero);
   </script>
 </body>
