@@ -14,7 +14,7 @@
       --btn-text: #ffffff;
     }
     [data-theme="dark"] {
-      --bg: #000000; /* pure black background */
+      --bg: #000000;
       --text: #f5f5f5;
       --accent: #888;
       --btn-bg: #f5f5f5;
@@ -37,7 +37,6 @@
       overflow-x: hidden;
       transition: background 0.4s ease, color 0.4s ease;
     }
-    /* Starfield Canvas */
     #starfield {
       position: fixed;
       top: 0;
@@ -46,7 +45,6 @@
       height: 100%;
       z-index: -1;
     }
-    /* Floating Nav */
     .floating-nav-container {
       position: fixed;
       top: 1.5rem;
@@ -67,8 +65,8 @@
     }
     .floating-nav:hover {
       box-shadow:
-        0 0 8px rgba(255, 255, 255, 0.3),
-        0 0 3px 2px rgba(255, 255, 255, 0.4);
+        0 0 12px rgba(255, 255, 255, 0.4),
+        0 0 4px 2px rgba(255, 255, 255, 0.5);
     }
     .floating-nav a {
       text-decoration: none;
@@ -147,7 +145,6 @@
   </style>
 </head>
 <body>
-  <!-- Starfield Background -->
   <canvas id="starfield"></canvas>
 
   <div class="floating-nav-container">
@@ -170,13 +167,14 @@
   </footer>
 
   <script>
-    // Starfield with Parallax and Glow
+    // Starfield with Twinkle, Glow, and Enhanced Parallax
     const canvas = document.getElementById('starfield');
     const ctx = canvas.getContext('2d');
     let stars = [];
     const starCount = 200;
     let width, height;
     let mouseX = 0, mouseY = 0;
+    let time = 0;
 
     function initStars() {
       width = canvas.width = window.innerWidth;
@@ -187,10 +185,13 @@
           x: Math.random() * width,
           y: Math.random() * height,
           size: Math.random() * 1.5 + 0.5,
-          speed: Math.random() * 0.8 + 0.2  // parallax speed factor
-        });
+          speed: Math.random() * 1.2 + 0.4,
+          phase: Math.random() * Math.PI * 2,
+          twinkleSpeed: Math.random() * 0.04 + 0.02
+n        });
       }
     }
+
     window.addEventListener('resize', initStars);
     window.addEventListener('mousemove', e => {
       mouseX = e.clientX;
@@ -199,24 +200,29 @@
 
     function animate() {
       ctx.clearRect(0, 0, width, height);
-      const offsetX = (mouseX - width / 2) / 50;
-      const offsetY = (mouseY - height / 2) / 50;
+      const offsetX = (mouseX - width / 2) / 30;
+      const offsetY = (mouseY - height / 2) / 30;
+      time += 0.016;
 
       stars.forEach(s => {
         const x = s.x + offsetX * s.speed;
         const y = s.y + offsetY * s.speed;
+        const twinkle = Math.sin(time * s.twinkleSpeed + s.phase) * 0.7;
+        const radius = Math.max(0, s.size + twinkle);
+
         ctx.save();
         ctx.fillStyle = '#ffffff';
-        ctx.shadowBlur = 4;
+        ctx.shadowBlur = radius * 8;
         ctx.shadowColor = '#ffffff';
         ctx.beginPath();
-        ctx.arc(x, y, s.size, 0, Math.PI * 2);
+        ctx.arc(x, y, radius, 0, Math.PI * 2);
         ctx.fill();
         ctx.restore();
       });
 
       requestAnimationFrame(animate);
     }
+
     initStars();
     animate();
   </script>
