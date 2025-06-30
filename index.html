@@ -28,58 +28,26 @@
       font-family: 'Inter', sans-serif;
     }
     body {
-      /* Background GIF with frosted overlay opacity control */
-      background: var(--bg) url('https://pin.it/60WHJAds6') center/cover no-repeat fixed;
+      position: relative;
+      overflow-x: hidden;
       color: var(--text);
       display: flex;
       flex-direction: column;
       min-height: 100vh;
-      position: relative;
-      overflow-x: hidden;
+      background: var(--bg);
       transition: background 0.4s ease, color 0.4s ease;
     }
 
-    /* Theme Switcher */
-    .theme-switcher {
+    /* Full-screen background iframe */
+    .background-iframe {
       position: fixed;
-      top: 1rem;
-      right: 1rem;
-      display: flex;
-      align-items: center;
-      z-index: 200;
-    }
-    .theme-switcher input {
-      height: 0;
-      width: 0;
-      visibility: hidden;
-    }
-    .theme-switcher label {
-      cursor: pointer;
-      text-indent: -9999px;
-      width: 50px;
-      height: 26px;
-      background: #ccc;
-      display: block;
-      border-radius: 100px;
-      position: relative;
-      transition: background 0.3s ease;
-    }
-    .theme-switcher label::after {
-      content: '';
-      position: absolute;
-      top: 3px;
-      left: 3px;
-      width: 20px;
-      height: 20px;
-      background: #fff;
-      border-radius: 50%;
-      transition: transform 0.3s ease;
-    }
-    .theme-switcher input:checked + label {
-      background: var(--accent);
-    }
-    .theme-switcher input:checked + label::after {
-      transform: translateX(24px);
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      z-index: -1;
+      pointer-events: none;
     }
 
     /* Floating Nav & Content Styles */
@@ -197,11 +165,8 @@
   </style>
 </head>
 <body>
-  <!-- Theme Switcher -->
-  <div class="theme-switcher">
-    <input type="checkbox" id="theme-toggle" aria-label="Toggle theme">
-    <label for="theme-toggle">Toggle Theme</label>
-  </div>
+  <!-- Background Pinterest Embed -->
+  <iframe class="background-iframe" src="https://assets.pinterest.com/ext/embed.html?id=63754150967999822" height="100%" width="100%" frameborder="0" scrolling="no"></iframe>
 
   <div class="floating-nav-container fade-up">
     <div class="floating-nav">
@@ -221,23 +186,5 @@
   <footer class="fade-up">
     &copy; 2025 2CEOS. All rights reserved.
   </footer>
-
-  <script>
-    const toggle = document.getElementById('theme-toggle');
-    const rootEl = document.documentElement;
-    // Initialize based on stored preference or initial attribute
-    const stored = localStorage.getItem('theme');
-    if (stored) {
-      rootEl.setAttribute('data-theme', stored);
-      toggle.checked = stored === 'light';
-    } else {
-      toggle.checked = rootEl.getAttribute('data-theme') === 'light';
-    }
-    toggle.addEventListener('change', () => {
-      const theme = toggle.checked ? 'light' : 'dark';
-      rootEl.setAttribute('data-theme', theme);
-      localStorage.setItem('theme', theme);
-    });
-  </script>
 </body>
 </html>
