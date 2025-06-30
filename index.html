@@ -41,9 +41,15 @@
       50% { opacity: 0.5; }
     }
 
-    /* Intro Logo - always visible */
+    /* Fade-in Animation */
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .intro-logo, .enter-btn { opacity: 0; }
+    .intro-logo.fade-in { animation: fadeIn 1s ease forwards; }
+    .enter-btn.fade-in { animation: fadeIn 1s ease forwards; }
+
+    /* Intro Logo */
     #intro-overlay .intro-logo {
-      width: 140px;
+      width: 200px;
       margin-bottom: 1.5rem;
       filter: drop-shadow(0 0 12px rgba(255,255,255,0.7));
       z-index: 1;
@@ -136,6 +142,14 @@
   <footer class="fade-in-up">&copy; 2025 2CEOS. All rights reserved.</footer>
 
   <script>
+    // Fade in logo then button
+    document.addEventListener('DOMContentLoaded', () => {
+      const logoEl = document.querySelector('.intro-logo');
+      const btnEl = document.querySelector('.enter-btn');
+      setTimeout(() => logoEl.classList.add('fade-in'), 100);
+      setTimeout(() => btnEl.classList.add('fade-in'), 1100);
+    });
+
     // Intro click, ripple, fade-out overlay, then reveal
     const overlay = document.getElementById('intro-overlay');
     const btn = overlay.querySelector('.enter-btn');
@@ -155,7 +169,6 @@
       type();
     }
     btn.addEventListener('click', e => {
-      // ripple
       const ripple = document.createElement('span');
       ripple.classList.add('ripple');
       const size = Math.max(window.innerWidth, window.innerHeight) * 2;
@@ -176,9 +189,8 @@
     // Starfield
     const canvas = document.getElementById('starfield');
     const ctx = canvas.getContext('2d');
-    let stars = []; const STAR_COUNT = 250;
-    let width, height, mouseX=0, mouseY=0;
-    const DRIFT_SPEED = 0.2;
+    let stars = [], width, height, mouseX=0, mouseY=0;
+    const STAR_COUNT = 250, DRIFT_SPEED = 0.2;
     function initStars() {
       width = canvas.width = window.innerWidth;
       height = canvas.height = window.innerHeight;
