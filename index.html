@@ -41,17 +41,13 @@
       50% { opacity: 0.5; }
     }
 
-    /* Intro Logo */
+    /* Intro Logo - always visible */
     #intro-overlay .intro-logo {
       width: 140px;
       margin-bottom: 1.5rem;
       filter: drop-shadow(0 0 12px rgba(255,255,255,0.7));
       z-index: 1;
-      opacity: 0;
-      transform: translateY(-20px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
     }
-    body.entered #intro-overlay .intro-logo { opacity: 1; transform: translateY(0); }
 
     /* Clickable text */
     #intro-overlay .enter-btn {
@@ -115,7 +111,7 @@
   <!-- Intro Overlay -->
   <div id="intro-overlay">
     <!-- logo from local assets folder -->
-    <img src="./assets/logo.png" alt="2CEOS Logo" class="intro-logo">
+    <img src="assets/logo.png" alt="2CEOS Logo" class="intro-logo">
     <div class="enter-btn">Click to Enter</div>
   </div>
 
@@ -180,10 +176,8 @@
     // Starfield
     const canvas = document.getElementById('starfield');
     const ctx = canvas.getContext('2d');
-    let stars = [];
-    const STAR_COUNT = 250;
-    let width, height;
-    let mouseX=0, mouseY=0;
+    let stars = []; const STAR_COUNT = 250;
+    let width, height, mouseX=0, mouseY=0;
     const DRIFT_SPEED = 0.2;
     function initStars() {
       width = canvas.width = window.innerWidth;
