@@ -24,10 +24,7 @@
       background: #111;
       display: flex; flex-direction: column; align-items: center; justify-content: center;
       z-index: 100;
-      opacity: 1;
-      transition: opacity 0.3s ease;
     }
-    #intro-overlay.fade-out { opacity: 0; }
     #intro-overlay::before {
       content: '';
       position: absolute; top: 0; left: 0; right: 0; bottom: 0;
@@ -137,7 +134,7 @@
   <footer class="fade-in-up">&copy; 2025 2CEOS. All rights reserved.</footer>
 
   <script>
-    // Fade in logo then button
+    // Initial fade-in
     document.addEventListener('DOMContentLoaded', () => {
       const logoEl = document.querySelector('.intro-logo');
       const btnEl = document.querySelector('.enter-btn');
@@ -145,9 +142,9 @@
       setTimeout(() => btnEl.classList.add('fade-in'), 1100);
     });
 
-    // Intro click, flash overlay, fade-out overlay, then reveal
     const overlay = document.getElementById('intro-overlay');
     const enterEls = document.querySelectorAll('.enter-btn, .intro-logo');
+
     function startTypewriter() {
       const text = "2 minds. 1 mission.";
       const typeEl = document.getElementById('typewriter');
@@ -163,15 +160,14 @@
       }
       type();
     }
+
+    // Click to enter: flash then hide overlay, reveal content
     enterEls.forEach(el => el.addEventListener('click', () => {
       overlay.classList.add('flash-out');
       overlay.addEventListener('animationend', () => {
-        overlay.classList.add('fade-out');
-        overlay.addEventListener('transitionend', () => {
-          overlay.remove();
-          document.body.classList.add('entered');
-          startTypewriter();
-        }, { once: true });
+        overlay.style.display = 'none';
+        document.body.classList.add('entered');
+        startTypewriter();
       }, { once: true });
     }));
 
