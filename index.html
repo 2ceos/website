@@ -14,11 +14,11 @@
       --btn-text: #ffffff;
     }
     [data-theme="dark"] {
-      --bg: #0f0f0f;
+      --bg: #000000; /* pure black background */
       --text: #f5f5f5;
       --accent: #888;
       --btn-bg: #f5f5f5;
-      --btn-text: #0f0f0f;
+      --btn-text: #000000;
     }
 
     * {
@@ -170,7 +170,7 @@
   </footer>
 
   <script>
-    // Starfield
+    // Starfield with Parallax and Glow
     const canvas = document.getElementById('starfield');
     const ctx = canvas.getContext('2d');
     let stars = [];
@@ -186,7 +186,8 @@
         stars.push({
           x: Math.random() * width,
           y: Math.random() * height,
-          size: Math.random() * 1.5 + 0.5
+          size: Math.random() * 1.5 + 0.5,
+          speed: Math.random() * 0.8 + 0.2  // parallax speed factor
         });
       }
     }
@@ -200,14 +201,20 @@
       ctx.clearRect(0, 0, width, height);
       const offsetX = (mouseX - width / 2) / 50;
       const offsetY = (mouseY - height / 2) / 50;
-      ctx.fillStyle = '#ffffff';
+
       stars.forEach(s => {
-        const x = s.x + offsetX;
-        const y = s.y + offsetY;
+        const x = s.x + offsetX * s.speed;
+        const y = s.y + offsetY * s.speed;
+        ctx.save();
+        ctx.fillStyle = '#ffffff';
+        ctx.shadowBlur = 4;
+        ctx.shadowColor = '#ffffff';
         ctx.beginPath();
         ctx.arc(x, y, s.size, 0, Math.PI * 2);
         ctx.fill();
+        ctx.restore();
       });
+
       requestAnimationFrame(animate);
     }
     initStars();
