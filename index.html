@@ -24,7 +24,6 @@
       background: #111;
       display: flex; flex-direction: column; align-items: center; justify-content: center;
       z-index: 100;
-      overflow: hidden;
       opacity: 1;
       transition: opacity 0.3s ease;
     }
@@ -40,6 +39,13 @@
       0%, 100% { opacity: 0.2; }
       50% { opacity: 0.5; }
     }
+    /* Flash effect on click */
+    #intro-overlay.flash-out { animation: flashfade 0.5s ease forwards; }
+    @keyframes flashfade {
+      0% { background: #111; opacity: 1; }
+      50% { background: #555; opacity: 1; }
+      100% { background: #555; opacity: 0; }
+    }
 
     /* Fade-in Animation */
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -49,38 +55,27 @@
 
     /* Intro Logo */
     #intro-overlay .intro-logo {
-      width: 200px;
+      width: 250px;
       margin-bottom: 1.5rem;
       filter: drop-shadow(0 0 12px rgba(255,255,255,0.7));
+      cursor: pointer;
       z-index: 1;
     }
 
     /* Clickable text */
     #intro-overlay .enter-btn {
-      position: relative;
       font-size: 2rem;
       color: var(--text);
       cursor: pointer;
       background: none;
       border: none;
       text-decoration: none;
-      z-index: 1;
       transition: text-shadow 0.3s ease;
+      z-index: 1;
     }
     #intro-overlay .enter-btn:hover {
       text-shadow: 0 0 8px rgba(255,255,255,0.8), 0 0 16px rgba(255,255,255,0.6);
     }
-
-    /* Ripple effect */
-    #intro-overlay .ripple {
-      position: absolute;
-      background: rgba(255,255,255,0.3);
-      border-radius: 50%;
-      transform: scale(0);
-      animation: ripple 0.8s ease-out;
-      pointer-events: none;
-    }
-    @keyframes ripple { to { transform: scale(1); opacity: 0; } }
 
     /* Fade-in up for main elements */
     .fade-in-up { opacity: 0; transform: translateY(20px); transition: opacity 1.7s ease, transform 1.7s ease; }
@@ -150,9 +145,9 @@
       setTimeout(() => btnEl.classList.add('fade-in'), 1100);
     });
 
-    // Intro click, ripple, fade-out overlay, then reveal
+    // Intro click, flash overlay, fade-out overlay, then reveal
     const overlay = document.getElementById('intro-overlay');
-    const btn = overlay.querySelector('.enter-btn');
+    const enterEls = document.querySelectorAll('.enter-btn, .intro-logo');
     function startTypewriter() {
       const text = "2 minds. 1 mission.";
       const typeEl = document.getElementById('typewriter');
@@ -168,23 +163,17 @@
       }
       type();
     }
-    btn.addEventListener('click', e => {
-      const ripple = document.createElement('span');
-      ripple.classList.add('ripple');
-      const size = Math.max(window.innerWidth, window.innerHeight) * 2;
-      ripple.style.width = ripple.style.height = size + 'px';
-      ripple.style.left = e.clientX - size/2 + 'px';
-      ripple.style.top = e.clientY - size/2 + 'px';
-      overlay.appendChild(ripple);
-      ripple.addEventListener('animationend', () => {
+    enterEls.forEach(el => el.addEventListener('click', () => {
+      overlay.classList.add('flash-out');
+      overlay.addEventListener('animationend', () => {
         overlay.classList.add('fade-out');
         overlay.addEventListener('transitionend', () => {
           overlay.remove();
           document.body.classList.add('entered');
           startTypewriter();
         }, { once: true });
-      });
-    });
+      }, { once: true });
+    }));
 
     // Starfield
     const canvas = document.getElementById('starfield');
