@@ -53,7 +53,7 @@
 
     /* Intro Logo */
     #intro-overlay .intro-logo {
-      width: 400px;
+      width: 300px;
       margin-bottom: 2rem;
       filter: drop-shadow(0 0 20px rgba(255,255,255,0.7));
       cursor: pointer;
@@ -61,13 +61,13 @@
 
     /* Clickable text */
     #intro-overlay .enter-btn {
-      font-size: 2.5rem;
+      font-size: 2rem;
       color: var(--text);
       cursor: pointer;
       background: none;
       border: none;
-      text-decoration: none;
       transition: text-shadow 0.3s ease;
+      position: relative;
     }
     #intro-overlay .enter-btn:hover {
       text-shadow: 0 0 12px rgba(255,255,255,0.9), 0 0 24px rgba(255,255,255,0.6);
@@ -138,15 +138,72 @@
     /* Divider */
     .divider { width: 80%; max-width: 800px; margin: 4rem auto; border: none; height: 1px; background: var(--accent); }
 
-    /* FAQ Section */
-    .faq { padding: 2rem; max-width: 800px; margin: 0 auto 4rem; color: var(--text); }
-    .faq h2 { font-size: 2.5rem; margin-bottom: 1.5rem; }
-    .faq-item { margin-bottom: 2rem; }
-    .faq-item h3 { font-size: 1.4rem; margin-bottom: 0.7rem; }
-    .faq-item p { font-size: 1.2rem; color: var(--accent); }
+    /* FAQ Cards with fade-in content on hover */
+    .faq { padding: 2rem; max-width: 900px; margin: 0 auto 4rem; }
+    .faq h2 { font-size: 2.5rem; margin-bottom: 2rem; text-align: center; }
+    .faq-cards { display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem; }
+    .faq-card {
+      position: relative;
+      width: 60px;
+      height: 240px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: width 0.4s ease, background 0.4s ease, box-shadow 0.3s ease;
+    }
+    .faq-card::before {
+      content: attr(data-number);
+      writing-mode: vertical-rl;
+      text-orientation: upright;
+      font-size: 1.2rem;
+      color: var(--text);
+      position: absolute;
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+    }
+    .faq-card .question,
+    .faq-card .answer {
+      position: absolute;
+      width: 100%;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    .faq-card .question {
+      top: 1rem;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--text);
+      text-align: center;
+    }
+    .faq-card .answer {
+      bottom: 1rem;
+      font-size: 1rem;
+      color: var(--accent);
+      text-align: center;
+      padding: 0 1rem;
+    }
+    .faq-card:hover {
+      width: 240px;
+      background: rgba(40,40,40,0.9);
+      box-shadow: 0 0 12px rgba(255,255,255,0.4), 0 0 4px 2px rgba(255,255,255,0.5);
+    }
+    .faq-card:hover::before {
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .faq-card:hover .question {
+      opacity: 1;
+      transition-delay: 0.4s;
+    }
+    .faq-card:hover .answer {
+      opacity: 1;
+      transition-delay: 0.6s;
+    }
 
     footer { text-align: center; padding: 1.5rem; font-size: 1rem; color: var(--accent); z-index: 10; }
-    @media (max-width:600px){ .hero h2{font-size:3rem;} }
+    @media (max-width:800px){ .hero h2{font-size:3rem;} .faq-card{height:200px;} }
+    @media (max-width:500px){ .hero h2{font-size:2.2rem;} #typewriter-container{font-size:2rem;} .faq-card{height:180px;} }
   </style>
 </head>
 <body>
@@ -180,17 +237,27 @@
   <hr class="divider fade-on-scroll">
   <section id="faq" class="faq fade-on-scroll">
     <h2>FAQ</h2>
-    <div class="faq-item">
-      <h3>What services do you offer?</h3>
-      <p>We offer brand strategy, web design, and digital marketing to help businesses scale effectively.</p>
-    </div>
-    <div class="faq-item">
-      <h3>How can I get started?</h3>
-      <p>Click the "Get Started" button above or contact us directly via the Contact link in the nav.</p>
+    <div class="faq-cards">
+      <div class="faq-card" data-number="1">
+        <div class="question">What services do you offer?</div>
+        <div class="answer">We offer brand strategy, web design, and digital marketing to help businesses scale effectively.</div>
+      </div>
+      <div class="faq-card" data-number="2">
+        <div class="question">How can I get started?</div>
+        <div class="answer">Click the "Get Started" button above or contact us directly via the Contact link.</div>
+      </div>
+      <div class="faq-card" data-number="3">
+        <div class="question">What is your timeline?</div>
+        <div class="answer">Typical projects take 4–6 weeks from kickoff to launch, depending on scope.</div>
+      </div>
+      <div class="faq-card" data-number="4">
+        <div class="question">Do you offer support?</div>
+        <div class="answer">Yes, we provide ongoing support and maintenance post-launch.</div>
+      </div>
     </div>
   </section>
 
-  <footer class="fade-in-up">&copy; 2025 2CEOS. All rights reserved.</footer>
+  <footer class="fade-in-up">© 2025 2CEOS. All rights reserved.</footer>
 
   <script>
     // Initial fade-in
@@ -215,7 +282,7 @@
           setTimeout(type, 100);
         } else {
           cursorEl.remove();
-        }
+ }
       }
       type();
     }
@@ -245,12 +312,16 @@
     // Starfield
     const canvas = document.getElementById('starfield');
     const ctx = canvas.getContext('2d');
-    let stars = [], width, height, mouseX = 0, mouseY = 0;
-    const STAR_COUNT = 250, DRIFT_SPEED = 0.2;
+    let stars = [], width, height;
+    const STAR_COUNT = 250;
+    const DRIFT_SPEED = 0.2;
+    let mouseX = 0, mouseY = 0;
 
     function initStars() {
       width = canvas.width = window.innerWidth;
       height = canvas.height = window.innerHeight;
+      mouseX = width / 2;
+      mouseY = height / 2;
       stars = [];
       for (let i = 0; i < STAR_COUNT; i++) {
         stars.push({
@@ -265,25 +336,20 @@
     function animateStars() {
       ctx.clearRect(0, 0, width, height);
       const time = Date.now();
-      for (let s of stars) {
-        // twinkle
-        const alpha = s.baseAlpha + Math.sin(time * 0.002 + s.x) * 0.3;
-        ctx.fillStyle = `rgba(255,255,255,${alpha})`;
-        ctx.beginPath();
-        ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
-        ctx.shadowBlur = s.size * 3;
-        ctx.shadowColor = 'white';
-        ctx.fill();
+      // Parallax based on cursor
+      const parallaxX = (mouseX - width / 2) * 0.02;
+      const parallaxY = (mouseY - height / 2) * 0.02;
 
+      for (let s of stars) {
         // drift right
         s.x += DRIFT_SPEED;
-        if (s.x > width) s.x = 0;
-
-        // follow cursor loosely
-        const dx = (mouseX - width / 2) * 0.0006;
-        const dy = (mouseY - height / 2) * 0.0006;
-        s.x += dx * s.size;
-        s.y += dy * s.size;
+        if (s.x > width + 5) s.x = -5;
+        // twinkle
+        const alpha = s.baseAlpha + Math.sin(time * 0.002 + s.x * 0.05) * 0.3;
+        ctx.fillStyle = `rgba(255,255,255,${alpha})`;
+        ctx.beginPath();
+        ctx.arc(s.x + parallaxX, s.y + parallaxY, s.size, 0, Math.PI * 2);
+        ctx.fill();
       }
       requestAnimationFrame(animateStars);
     }
