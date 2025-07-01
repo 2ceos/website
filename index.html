@@ -177,7 +177,6 @@
       gap: 3rem; 
       transition: all 0.3s ease; 
       white-space: nowrap;
-      position: relative;
     }
     .floating-nav::before {
       content: '';
@@ -200,7 +199,7 @@
       border-color: rgba(255, 255, 255, 0.2);
       transform: translateY(-2px);
     }
-    .floating-nav a { text-decoration: none; color: var(--accent); font-weight: 600; font-size: 1.2rem; transition: color 0.3s ease; cursor: pointer; }
+    .floating-nav a { text-decoration: none; color: var(--accent); font-weight: 600; font-size: 1.2rem; transition: color 0.3s ease; }
     .floating-nav a:hover { color: var(--text); }
 
     /* Header with scroll behavior */
@@ -369,27 +368,11 @@
         0 0 0 1px rgba(255, 255, 255, 0.1),
         inset 0 1px 0 rgba(255, 255, 255, 0.2);
       cursor: pointer;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      position: relative;
-      z-index: 10;
+      transition: transform 0.3s ease;
     }
 
     .typeform-container:hover {
       transform: translateY(-2px);
-    }
-
-    /* Fullscreen state for typeform container */
-    .typeform-container.fullscreen {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      max-width: none;
-      z-index: 1000;
-      border-radius: 0;
-      cursor: default;
-      transform: none;
     }
 
     /* Fullscreen button */
@@ -425,32 +408,54 @@
         inset 0 1px 0 rgba(255, 255, 255, 0.3);
     }
 
-    /* Fullscreen overlay */
-    .fullscreen-overlay {
+    /* Fullscreen Typeform Modal */
+    .typeform-modal {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
       background: rgba(0, 0, 0, 0.95);
-      z-index: 999;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       opacity: 0;
       visibility: hidden;
       transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .fullscreen-overlay.active {
+    .typeform-modal.active {
       opacity: 1;
       visibility: visible;
     }
 
-    /* Close button for fullscreen */
+    .typeform-modal-content {
+      width: 90%;
+      max-width: 800px;
+      height: 80%;
+      max-height: 600px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      overflow: hidden;
+      transform: scale(0.8) translateY(50px);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+    }
+
+    .typeform-modal.active .typeform-modal-content {
+      transform: scale(1) translateY(0);
+    }
+
     .typeform-close {
-      position: fixed;
+      position: absolute;
       top: 20px;
       right: 20px;
-      width: 50px;
-      height: 50px;
+      width: 40px;
+      height: 40px;
       background: rgba(255, 255, 255, 0.1);
       border: 1px solid rgba(255, 255, 255, 0.2);
       border-radius: 50%;
@@ -459,18 +464,9 @@
       justify-content: center;
       cursor: pointer;
       color: var(--text);
-      font-size: 24px;
+      font-size: 20px;
       z-index: 1001;
       transition: all 0.3s ease;
-      opacity: 0;
-      visibility: hidden;
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-    }
-
-    .typeform-close.active {
-      opacity: 1;
-      visibility: visible;
     }
 
     .typeform-close:hover {
@@ -487,6 +483,7 @@
       .floating-nav { padding: 0.8rem 2rem; gap: 2rem; }
       .floating-nav a { font-size: 1rem; }
       .typeform-container { max-width: 100%; height: 350px; }
+      .typeform-modal-content { width: 95%; height: 85%; }
     }
     @media (max-width:500px){ 
       .hero h2{font-size:2.2rem;} 
@@ -498,7 +495,7 @@
       .floating-nav { padding: 0.6rem 1.5rem; gap: 1.5rem; }
       .floating-nav a { font-size: 0.9rem; }
       .typeform-container { height: 300px; }
-      .typeform-close { top: 10px; right: 10px; width: 40px; height: 40px; font-size: 20px; }
+      .typeform-modal-content { width: 98%; height: 90%; }
     }
   </style>
 </head>
@@ -512,17 +509,11 @@
   <!-- Scroll gradient overlay -->
   <div class="scroll-gradient"></div>
 
-  <!-- Fullscreen overlay -->
-  <div class="fullscreen-overlay" id="fullscreen-overlay"></div>
-
-  <!-- Close button for fullscreen -->
-  <div class="typeform-close" id="typeform-close" onclick="closeTypeformFullscreen()">×</div>
-
   <canvas id="starfield"></canvas>
 
   <div class="floating-nav-container fade-in-up">
     <div class="floating-nav">
-      <a onclick="scrollToContact()">Contact</a>
+      <a href="#contact">Contact</a>
       <a href="#portfolio">Portfolio</a>
       <a href="#about">About</a>
       <a href="#about">Apply</a>
@@ -552,7 +543,6 @@
         <div class="answer">We offer brand strategy, web design, and digital marketing to help businesses scale effectively.</div>
       </div>
       <div class="faq-card">
-        <div class="card-number">2</div>
         <div class="question">How can I get started?</div>
         <div class="answer">Click the "Get Started" button above or contact us directly via the Contact link.</div>
       </div>
@@ -583,14 +573,22 @@
   <section id="contact" class="contact fade-on-scroll">
     <h2>Contact</h2>
     <p>Ready to scale your business? Get in touch with us and let's discuss how we can help you achieve your goals.</p>
-    <div class="typeform-container" id="typeform-container" onclick="openTypeformFullscreen()">
+    <div class="typeform-container" onclick="openTypeformModal()">
       <div data-tf-live="01JZ2J55KH81A84PHYHD24TXC4"></div>
     </div>
-    <button class="fullscreen-btn" onclick="openTypeformFullscreen()">
+    <button class="fullscreen-btn" onclick="openTypeformModal()">
       <span>📱</span>
       Open Fullscreen
     </button>
   </section>
+
+  <!-- Fullscreen Typeform Modal -->
+  <div class="typeform-modal" id="typeform-modal">
+    <div class="typeform-modal-content">
+      <div class="typeform-close" onclick="closeTypeformModal()">×</div>
+      <div data-tf-live="01JZ2J55KH81A84PHYHD24TXC4"></div>
+    </div>
+  </div>
 
   <footer class="fade-in-up">© 2025 2CEOS. All rights reserved.</footer>
 
@@ -699,42 +697,30 @@
       }
     }
 
-    // Typeform fullscreen functions
-    function openTypeformFullscreen() {
-      const container = document.getElementById('typeform-container');
-      const overlay = document.getElementById('fullscreen-overlay');
-      const closeBtn = document.getElementById('typeform-close');
-      
-      // Add fullscreen classes
-      container.classList.add('fullscreen');
-      overlay.classList.add('active');
-      closeBtn.classList.add('active');
-      
-      // Prevent background scrolling
-      document.body.style.overflow = 'hidden';
+    // Typeform modal functions
+    function openTypeformModal() {
+      const modal = document.getElementById('typeform-modal');
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden'; // Prevent background scrolling
     }
 
-    function closeTypeformFullscreen() {
-      const container = document.getElementById('typeform-container');
-      const overlay = document.getElementById('fullscreen-overlay');
-      const closeBtn = document.getElementById('typeform-close');
-      
-      // Remove fullscreen classes
-      container.classList.remove('fullscreen');
-      overlay.classList.remove('active');
-      closeBtn.classList.remove('active');
-      
-      // Restore scrolling
-      document.body.style.overflow = 'auto';
+    function closeTypeformModal() {
+      const modal = document.getElementById('typeform-modal');
+      modal.classList.remove('active');
+      document.body.style.overflow = 'auto'; // Restore scrolling
     }
 
-    // Close fullscreen when clicking overlay
-    document.getElementById('fullscreen-overlay').addEventListener('click', closeTypeformFullscreen);
+    // Close modal when clicking outside
+    document.getElementById('typeform-modal').addEventListener('click', (e) => {
+      if (e.target.classList.contains('typeform-modal')) {
+        closeTypeformModal();
+      }
+    });
 
-    // Close fullscreen with escape key
+    // Close modal with escape key
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
-        closeTypeformFullscreen();
+        closeTypeformModal();
       }
     });
 
@@ -917,4 +903,4 @@
     animateStars();
   </script>
 </body>
-</html> 
+</html>
