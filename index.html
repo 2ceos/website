@@ -19,6 +19,23 @@
     body { background: var(--bg); color: var(--text); overflow: hidden; }
     body.entered { overflow: auto; }
 
+    /* Black gradient overlay for seamless scrolling */
+    .scroll-gradient {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 120px;
+      background: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 50%, transparent 100%);
+      z-index: 15;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .scroll-gradient.visible {
+      opacity: 1;
+    }
+
     /* Overlay Intro */
     #intro-overlay {
       position: fixed; top: 0; left: 0;
@@ -124,7 +141,7 @@
       width: 100%; 
       display: flex; 
       justify-content: center; 
-      z-index: 10;
+      z-index: 20;
       transform: translateY(0);
       transition: transform 0.3s ease;
     }
@@ -139,7 +156,7 @@
     /* Header with scroll behavior */
     header { 
       padding: 2rem; 
-      z-index: 10; 
+      z-index: 20; 
       position: fixed;
       top: 0;
       left: 0;
@@ -171,20 +188,20 @@
     /* Divider */
     .divider { width: 80%; max-width: 800px; margin: 4rem auto; border: none; height: 1px; background: var(--accent); }
 
-    /* Modern Glass FAQ Cards */
-    .faq { padding: 2rem; max-width: 1200px; margin: 0 auto 4rem; }
+    /* Modern Glass FAQ Cards - More cards per row */
+    .faq { padding: 2rem; max-width: 1400px; margin: 0 auto 4rem; }
     .faq h2 { font-size: 2.5rem; margin-bottom: 3rem; text-align: center; }
-    .faq-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; padding: 1rem; }
+    .faq-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; padding: 1rem; }
     
     .faq-card {
       position: relative;
-      height: 200px;
+      height: 180px;
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 20px;
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      padding: 2rem;
+      padding: 1.5rem;
       cursor: pointer;
       transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       overflow: hidden;
@@ -222,9 +239,9 @@
 
     .faq-card .card-number {
       position: absolute;
-      top: 1.5rem;
-      right: 1.5rem;
-      font-size: 3rem;
+      top: 1rem;
+      right: 1rem;
+      font-size: 2rem;
       font-weight: 700;
       color: rgba(255, 255, 255, 0.1);
       transition: color 0.3s ease;
@@ -235,7 +252,7 @@
     }
 
     .faq-card .question {
-      font-size: 1.4rem;
+      font-size: 1.2rem;
       font-weight: 600;
       color: var(--text);
       margin-bottom: 1rem;
@@ -243,24 +260,64 @@
     }
 
     .faq-card .answer {
-      font-size: 1rem;
+      font-size: 0.9rem;
       color: var(--accent);
       line-height: 1.5;
       opacity: 0.9;
+    }
+
+    /* Contact Section */
+    .contact { 
+      padding: 4rem 2rem; 
+      max-width: 1200px; 
+      margin: 0 auto; 
+      text-align: center;
+    }
+    .contact h2 { 
+      font-size: 2.5rem; 
+      margin-bottom: 2rem; 
+      color: var(--text);
+    }
+    .contact p {
+      font-size: 1.2rem;
+      color: var(--accent);
+      margin-bottom: 3rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .typeform-container {
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      padding: 2rem;
+      min-height: 500px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+      font-size: 1.1rem;
     }
 
     footer { text-align: center; padding: 1.5rem; font-size: 1rem; color: var(--accent); z-index: 10; }
     
     @media (max-width:800px){ 
       .hero h2{font-size:3rem;} 
-      .faq-cards { grid-template-columns: 1fr; }
-      .faq-card { height: 180px; }
+      .faq-cards { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+      .faq-card { height: 160px; }
     }
     @media (max-width:500px){ 
       .hero h2{font-size:2.2rem;} 
       #typewriter-container{font-size:2rem;} 
-      .faq-card { height: 160px; padding: 1.5rem; }
-      .faq-card .question { font-size: 1.2rem; }
+      .faq-cards { grid-template-columns: 1fr; }
+      .faq-card { height: 140px; padding: 1rem; }
+      .faq-card .question { font-size: 1.1rem; }
+      .faq-card .answer { font-size: 0.85rem; }
     }
   </style>
 </head>
@@ -270,6 +327,9 @@
     <img src="assets/logo.png" alt="2CEOS Logo" class="intro-logo">
     <div class="enter-btn">Click to Enter</div>
   </div>
+
+  <!-- Scroll gradient overlay -->
+  <div class="scroll-gradient"></div>
 
   <canvas id="starfield"></canvas>
 
@@ -319,6 +379,26 @@
         <div class="question">Do you offer support?</div>
         <div class="answer">Yes, we provide ongoing support and maintenance post-launch.</div>
       </div>
+      <div class="faq-card">
+        <div class="card-number">5</div>
+        <div class="question">What's your pricing?</div>
+        <div class="answer">We offer flexible pricing based on project scope and business needs.</div>
+      </div>
+      <div class="faq-card">
+        <div class="card-number">6</div>
+        <div class="question">Do you work globally?</div>
+        <div class="answer">Yes, we work with clients worldwide and adapt to different time zones.</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider fade-on-scroll">
+  <section id="contact" class="contact fade-on-scroll">
+    <h2>Contact</h2>
+    <p>Ready to scale your business? Get in touch with us and let's discuss how we can help you achieve your goals.</p>
+    <div class="typeform-container">
+      <!-- Typeform will be embedded here -->
+      <div>Your Typeform embed code goes here</div>
     </div>
   </section>
 
@@ -327,7 +407,7 @@
   <script>
     // Scroll behavior variables
     let lastScrollTop = 0;
-    let scrollThreshold = 10; // Reduced from 50 to 10 for easier testing
+    let scrollThreshold = 10;
 
     // Check if this is a fresh visit or navigation
     function shouldShowIntro() {
@@ -373,9 +453,17 @@
     function initScrollBehavior() {
       const navContainer = document.querySelector('.floating-nav-container');
       const header = document.querySelector('header');
+      const scrollGradient = document.querySelector('.scroll-gradient');
 
       window.addEventListener('scroll', () => {
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        // Show/hide gradient overlay
+        if (scrollTop > scrollThreshold) {
+          scrollGradient.classList.add('visible');
+        } else {
+          scrollGradient.classList.remove('visible');
+        }
         
         // Only apply scroll behavior after scrolling past threshold
         if (scrollTop > scrollThreshold) {
