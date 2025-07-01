@@ -117,14 +117,38 @@
     /* Starfield stays behind */
     #starfield { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
 
-    /* Nav styling */
-    .floating-nav-container { position: fixed; top: 2rem; width: 100%; display: flex; justify-content: center; z-index: 10; }
+    /* Nav styling with scroll behavior */
+    .floating-nav-container { 
+      position: fixed; 
+      top: 2rem; 
+      width: 100%; 
+      display: flex; 
+      justify-content: center; 
+      z-index: 10;
+      transform: translateY(0);
+      transition: transform 0.3s ease;
+    }
+    .floating-nav-container.hidden {
+      transform: translateY(-120px);
+    }
     .floating-nav { background: rgba(26,26,26,0.8); padding: 1rem 3rem; border-radius: 999px; box-shadow: 0 8px 20px rgba(0,0,0,0.5); backdrop-filter: blur(6px); display: flex; gap: 3rem; transition: box-shadow 0.3s ease; }
     .floating-nav:hover { box-shadow: 0 0 12px rgba(255,255,255,0.4), 0 0 4px 2px rgba(255,255,255,0.5); }
     .floating-nav a { text-decoration: none; color: var(--accent); font-weight: 600; font-size: 1.2rem; transition: color 0.3s ease; }
     .floating-nav a:hover { color: var(--text); }
 
-    header { padding: 2rem; z-index: 10; }
+    /* Header with scroll behavior */
+    header { 
+      padding: 2rem; 
+      z-index: 10; 
+      position: fixed;
+      top: 0;
+      left: 0;
+      transform: translateY(0);
+      transition: transform 0.3s ease;
+    }
+    header.hidden {
+      transform: translateY(-100px);
+    }
     header h1 { 
       font-size: 2.5rem; 
       font-weight: 700; 
@@ -228,7 +252,7 @@
     <div class="floating-nav">
       <a href="#contact">Contact</a>
       <a href="#portfolio">Portfolio</a>
-      <a href="aboutus.html">About</a>
+      <a href="#about">About</a>
       <a href="#about">Apply</a>
     </div>
   </div>
@@ -272,6 +296,10 @@
   <footer class="fade-in-up">© 2025 2CEOS. All rights reserved.</footer>
 
   <script>
+    // Scroll behavior variables
+    let lastScrollTop = 0;
+    let scrollThreshold = 50;
+
     // Check if this is a fresh visit or navigation
     function shouldShowIntro() {
       // Check if user came from another page on the same domain
@@ -302,6 +330,7 @@
         }
         document.body.classList.add('entered');
         startTypewriter();
+        initScrollBehavior();
       } else {
         // Show intro sequence
         const logoEl = document.querySelector('.intro-logo');
@@ -309,6 +338,35 @@
         setTimeout(() => logoEl && logoEl.classList.add('fade-in'), 100);
         setTimeout(() => btnEl && btnEl.classList.add('fade-in'), 1100);
       }
+    }
+
+    // Initialize scroll behavior for navigation elements
+    function initScrollBehavior() {
+      const navContainer = document.querySelector('.floating-nav-container');
+      const header = document.querySelector('header');
+
+      window.addEventListener('scroll', () => {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        // Only apply scroll behavior after scrolling past threshold
+        if (scrollTop > scrollThreshold) {
+          if (scrollTop > lastScrollTop) {
+            // Scrolling down - hide elements
+            navContainer.classList.add('hidden');
+            header.classList.add('hidden');
+          } else {
+            // Scrolling up - show elements
+            navContainer.classList.remove('hidden');
+            header.classList.remove('hidden');
+          }
+        } else {
+          // At top of page - always show elements
+          navContainer.classList.remove('hidden');
+          header.classList.remove('hidden');
+        }
+        
+        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // For Mobile or negative scrolling
+      });
     }
 
     // Home navigation function
@@ -357,6 +415,7 @@
         overlay.remove();
         document.body.classList.add('entered');
         startTypewriter();
+        initScrollBehavior(); // Initialize scroll behavior after entering
       }, { once: true });
     }));
 
