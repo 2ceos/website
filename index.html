@@ -14,201 +14,40 @@
       --btn-bg: #f5f5f5;
       --btn-text: #000;
     }
-
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
     body { background: var(--bg); color: var(--text); overflow: hidden; }
     body.entered { overflow: auto; }
+    .fade-in-page { opacity: 0; animation: fadeInPage 1.5s ease forwards; }
+    @keyframes fadeInPage { to { opacity: 1; } }
 
-    /* Overlay Intro */
-    #intro-overlay {
-      position: fixed; top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: #111;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      z-index: 100;
-    }
-    #intro-overlay::before {
-      content: '';
-      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-      background: radial-gradient(circle at center, transparent 60%, rgba(0,0,0,0.8) 100%);
-      animation: vignette 4s ease-in-out infinite;
-      pointer-events: none;
-      z-index: 0;
-    }
-    @keyframes vignette {
-      0%, 100% { opacity: 0.2; }
-      50% { opacity: 0.5; }
-    }
-    /* Flash effect on click */
+    #intro-overlay { /* unchanged */ position: fixed; top:0; left:0; width:100%; height:100%; background:#111; display:flex; flex-direction:column; align-items:center; justify-content:center; z-index:100; }
+    #intro-overlay::before { content:''; position:absolute; top:0; left:0; right:0; bottom:0; background: radial-gradient(circle at center, transparent 60%, rgba(0,0,0,0.8) 100%); animation: vignette 4s ease-in-out infinite; pointer-events: none; z-index: 0; }
+    @keyframes vignette {0%,100%{opacity:0.2;}50%{opacity:0.5;}}
     #intro-overlay.flash-out { animation: flashfade 0.5s ease forwards; }
-    @keyframes flashfade {
-      0% { background: #111; opacity: 1; }
-      50% { background: #555; opacity: 1; }
-      100% { background: #555; opacity: 0; }
-    }
-
-    /* Fade-in Animation */
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes flashfade {0%{background:#111;opacity:1;}50%{background:#555;opacity:1;}100%{background:#555;opacity:0;}}
     .intro-logo, .enter-btn { opacity: 0; position: relative; z-index: 1; }
     .intro-logo.fade-in, .enter-btn.fade-in { animation: fadeIn 1s ease forwards; }
-
-    /* Intro Logo */
-    #intro-overlay .intro-logo {
-      width: 300px;
-      margin-bottom: 2rem;
-      filter: drop-shadow(0 0 20px rgba(255,255,255,0.7));
-      cursor: pointer;
-    }
-
-    /* Clickable text */
-    #intro-overlay .enter-btn {
-      font-size: 2rem;
-      color: var(--text);
-      cursor: pointer;
-      background: none;
-      border: none;
-      transition: text-shadow 0.3s ease;
-      position: relative;
-    }
-    #intro-overlay .enter-btn:hover {
-      text-shadow: 0 0 12px rgba(255,255,255,0.9), 0 0 24px rgba(255,255,255,0.6);
-    }
-
-    /* Fade-in up for main elements */
-    .fade-in-up { opacity: 0; transform: translateY(20px); transition: opacity 1.7s ease, transform 1.7s ease; }
-    body.entered .fade-in-up { opacity: 1; transform: translateY(0); }
-
-    /* Scroll-triggered fade (toggle) */
-    .fade-on-scroll { opacity: 0; transform: translateY(20px); transition: opacity 1s ease, transform 1s ease; }
-    .fade-on-scroll.visible { opacity: 1; transform: translateY(0); }
-
-    /* Full-screen hero after enter */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 2rem;
-      z-index: 5;
-    }
-
-    /* Scroll-down indicator */
-    .scroll-indicator {
-      margin-top: 2rem;
-      font-size: 2.5rem;
-      color: var(--accent);
-      animation: bounce 2s infinite;
-    }
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(10px); }
-    }
-    /* FAQ Indicator Text */
-    .faq-indicator {
-      margin-top: 1rem;
-      font-size: 1.2rem;
-      color: var(--accent);
-      opacity: 0.8;
-      transition: opacity 0.3s ease;
-    }
-
-    /* Starfield stays behind */
-    #starfield { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
-
-    /* Nav styling */
-    .floating-nav-container { position: fixed; top: 2rem; width: 100%; display: flex; justify-content: center; z-index: 10; }
-    .floating-nav { background: rgba(26,26,26,0.8); padding: 1rem 3rem; border-radius: 999px; box-shadow: 0 8px 20px rgba(0,0,0,0.5); backdrop-filter: blur(6px); display: flex; gap: 3rem; transition: box-shadow 0.3s ease; }
-    .floating-nav:hover { box-shadow: 0 0 12px rgba(255,255,255,0.4), 0 0 4px 2px rgba(255,255,255,0.5); }
-    .floating-nav a { text-decoration: none; color: var(--accent); font-weight: 600; font-size: 1.2rem; transition: color 0.3s ease; }
-    .floating-nav a:hover { color: var(--text); }
-
-    header { padding: 2rem; z-index: 10; }
-    header h1 { font-size: 2.5rem; font-weight: 700; }
-
-    /* Typewriter and glow */
-    #typewriter-container { font-size: 3rem; color: var(--text); text-shadow: 0 0 10px rgba(255,255,255,0.7), 0 0 20px rgba(255,255,255,0.5); margin-bottom: 2rem; display: flex; align-items: center; height: 3.5rem; }
-    #cursor { animation: blink 0.7s infinite; }
-    @keyframes blink { 0%,50%{opacity:1;}51%,100%{opacity:0;} }
-    .hero h2 { font-size: 4rem; max-width: 900px; line-height: 1.1; }
-    .hero p { font-size: 1.6rem; margin-top: 1.5rem; color: var(--accent); max-width: 700px; text-shadow: 0 0 8px rgba(255,255,255,0.4); }
-    .hero button { margin-top: 2.5rem; padding: 1rem 2.5rem; font-size: 1.2rem; background: var(--btn-bg); color: var(--btn-text); border: none; border-radius: 8px; cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease; }
-    .hero button:hover { transform: scale(1.1); box-shadow: 0 0 20px rgba(255,255,255,0.6); }
-
-    /* Divider */
-    .divider { width: 80%; max-width: 800px; margin: 4rem auto; border: none; height: 1px; background: var(--accent); }
-
-    /* FAQ Cards with fade-in content on hover */
-    .faq { padding: 2rem; max-width: 900px; margin: 0 auto 4rem; }
-    .faq h2 { font-size: 2.5rem; margin-bottom: 2rem; text-align: center; }
-    .faq-cards { display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem; }
-    .faq-card {
-      position: relative;
-      width: 60px;
-      height: 240px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 12px;
-      overflow: hidden;
-      cursor: pointer;
-      transition: width 0.4s ease, background 0.4s ease, box-shadow 0.3s ease;
-    }
-    .faq-card::before {
-      content: attr(data-number);
-      writing-mode: vertical-rl;
-      text-orientation: upright;
-      font-size: 1.2rem;
-      color: var(--text);
-      position: absolute;
-      top: 50%; left: 50%; transform: translate(-50%, -50%);
-    }
-    .faq-card .question,
-    .faq-card .answer {
-      position: absolute;
-      width: 100%;
-      opacity: 0;
-      transition: opacity 0.4s ease;
-    }
-    .faq-card .question {
-      top: 1rem;
-      font-size: 1.2rem;
-      font-weight: 600;
-      color: var(--text);
-      text-align: center;
-    }
-    .faq-card .answer {
-      bottom: 1rem;
-      font-size: 1rem;
-      color: var(--accent);
-      text-align: center;
-      padding: 0 1rem;
-    }
-    .faq-card:hover {
-      width: 240px;
-      background: rgba(40,40,40,0.9);
-      box-shadow: 0 0 12px rgba(255,255,255,0.4), 0 0 4px 2px rgba(255,255,255,0.5);
-    }
-  .faq-card:hover::before {
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-    .faq-card:hover .question {
-      opacity: 1;
-      transition-delay: 0.4s;
-    }
-    .faq-card:hover .answer {
-      opacity: 1;
-      transition-delay: 0.6s;
-    }
-
-    footer { text-align: center; padding: 1.5rem; font-size: 1rem; color: var(--accent); z-index: 10; }
-    @media (max-width:800px){ .hero h2{font-size:3rem;} .faq-card{height:200px;} }
-    @media (max-width:500px){ .hero h2{font-size:2.2rem;} #typewriter-container{font-size:2rem;} .faq-card{height:180px;} }
+    @keyframes fadeIn {from{opacity:0;}to{opacity:1;}}
+    #intro-overlay .intro-logo { width:300px; margin-bottom:2rem; filter: drop-shadow(0 0 20px rgba(255,255,255,0.7)); cursor: pointer;}
+    #intro-overlay .enter-btn { font-size:2rem; color:var(--text); cursor:pointer; background:none; border:none; transition:text-shadow 0.3s ease; }
+    #intro-overlay .enter-btn:hover { text-shadow:0 0 12px rgba(255,255,255,0.9),0 0 24px rgba(255,255,255,0.6);}
+    #starfield { position:fixed; top:0; left:0; width:100%; height:100%; z-index:-1; }
+    .floating-nav-container { position:fixed; top:2rem; width:100%; display:flex; justify-content:center; z-index:10; }
+    .floating-nav { background:rgba(26,26,26,0.8); padding:1rem 3rem; border-radius:999px; box-shadow:0 8px 20px rgba(0,0,0,0.5); backdrop-filter: blur(6px); display:flex; gap:3rem; transition:box-shadow 0.3s ease;}
+    .floating-nav:hover { box-shadow:0 0 12px rgba(255,255,255,0.4),0 0 4px 2px rgba(255,255,255,0.5);}
+    .floating-nav a { text-decoration:none; color:var(--accent); font-weight:600; font-size:1.2rem; transition:color 0.3s ease;}
+    .floating-nav a:hover { color:var(--text);}
+    header { padding:2rem; z-index:10; }
+    header h1 { font-size:2.5rem; font-weight:700; }
+    header h1 a { color: inherit; text-decoration: none; }
+    .fade-in-up { opacity:0; transform:translateY(20px); transition:opacity 1.7s ease, transform 1.7s ease;}
+    body.entered .fade-in-up { opacity:1; transform:translateY(0);}
+    .hero { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:2rem; z-index:5;}
+    .scroll-indicator { margin-top:2rem; font-size:2.5rem; color:var(--accent); animation: bounce 2s infinite;}
+    @keyframes bounce {0%,100%{transform:translateY(0);}50%{transform:translateY(10px);}}
   </style>
 </head>
-<body>
-  <!-- Intro Overlay -->
+<body class="fade-in-page">
   <div id="intro-overlay">
     <img src="assets/logo.png" alt="2CEOS Logo" class="intro-logo">
     <div class="enter-btn">Click to Enter</div>
@@ -224,147 +63,55 @@
       <a href="#about">Apply</a>
     </div>
   </div>
-  <header class="fade-in-up"><h1>2CEOS</h1></header>
+
+  <header class="fade-in-up"><h1><a href="https://2ceos.com">2CEOS</a></h1></header>
+
   <main class="hero fade-in-up">
-    <div id="typewriter-container">
-      <span id="typewriter"></span><span id="cursor">|</span>
-    </div>
     <h2>Scale Your Business</h2>
-    <p>At 2CEOs, we specialize in scaling ambitious brands with a unique blend of creative strategy, high-converting advertising, and expert brand consulting. We transform promising businesses into market leaders by crafting standout visuals, optimizing performance marketing, and building systems that fuel sustainable growth. Whether you’re launching your first product or leveling up your business, we’ll help you hit the next milestone.</p>
+    <p>At 2CEOs, we specialize in scaling ambitious brands with a unique blend of creative strategy, high-converting advertising, and expert brand consulting. We transform promising businesses into market leaders by crafting standout visuals, optimizing performance marketing, and building systems that fuel sustainable growth.</p>
     <button>Get Started</button>
     <div class="scroll-indicator">⌄</div>
-    <div class="faq-indicator">FAQ</div>
   </main>
 
-  <hr class="divider fade-on-scroll">
-  <section id="faq" class="faq fade-on-scroll">
-    <h2>FAQ</h2>
-    <div class="faq-cards">
-      <div class="faq-card" data-number="1">
-        <div class="question">What services do you offer?</div>
-        <div class="answer">We offer brand strategy, web design, and digital marketing to help businesses scale effectively.</div>
-      </div>
-      <div class="faq-card" data-number="2">
-        <div class="question">How can I get started?</div>
-        <div class="answer">Click the "Get Started" button above or contact us directly via the Contact link.</div>
-      </div>
-      <div class="faq-card" data-number="3">
-        <div class="question">What is your timeline?</div>
-        <div class="answer">Typical projects take 4–6 weeks from kickoff to launch, depending on scope.</div>
-      </div>
-      <div class="faq-card" data-number="4">
-        <div class="question">Do you offer support?</div>
-        <div class="answer">Yes, we provide ongoing support and maintenance post-launch.</div>
-      </div>
-    </div>
-  </section>
-
-  <footer class="fade-in-up">© 2025 2CEOS. All rights reserved.</footer>
-
   <script>
-    // Initial fade-in
     document.addEventListener('DOMContentLoaded', () => {
       const logoEl = document.querySelector('.intro-logo');
       const btnEl = document.querySelector('.enter-btn');
       setTimeout(() => logoEl.classList.add('fade-in'), 100);
       setTimeout(() => btnEl.classList.add('fade-in'), 1100);
     });
-
     const overlay = document.getElementById('intro-overlay');
     const enterEls = document.querySelectorAll('.enter-btn, .intro-logo');
-
-    function startTypewriter() {
-      const text = "2 minds. 1 mission.";
-      const typeEl = document.getElementById('typewriter');
-      const cursorEl = document.getElementById('cursor');
-      let i = 0;
-      function type() {
-        if (i < text.length) {
-          typeEl.textContent += text.charAt(i++);
-          setTimeout(type, 100);
-        } else {
-          cursorEl.remove();
- }
-      }
-      type();
-    }
-
-    // Click to enter: flash then hide overlay
     enterEls.forEach(el => el.addEventListener('click', () => {
       overlay.classList.add('flash-out');
       overlay.addEventListener('animationend', () => {
         overlay.remove();
         document.body.classList.add('entered');
-        startTypewriter();
       }, { once: true });
     }));
-
-    // Scroll fade-in observer
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        } else {
-          entry.target.classList.remove('visible');
-        }
-      });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.fade-on-scroll').forEach(el => observer.observe(el));
-
-    // Starfield
     const canvas = document.getElementById('starfield');
     const ctx = canvas.getContext('2d');
     let stars = [], width, height;
     const STAR_COUNT = 250;
     const DRIFT_SPEED = 0.2;
-    let mouseX = 0, mouseY = 0;
-
+    let mouseX=0, mouseY=0;
     function initStars() {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-      mouseX = width / 2;
-      mouseY = height / 2;
-      stars = [];
-      for (let i = 0; i < STAR_COUNT; i++) {
-        stars.push({
-          x: Math.random() * width,
-          y: Math.random() * height,
-          size: Math.random() * 1.5 + 0.5,
-          baseAlpha: Math.random() * 0.5 + 0.5
-        });
-      }
+      width=canvas.width=window.innerWidth; height=canvas.height=window.innerHeight; mouseX=width/2; mouseY=height/2; stars=[];
+      for (let i=0;i<STAR_COUNT;i++) stars.push({x:Math.random()*width,y:Math.random()*height,size:Math.random()*1.5+0.5,baseAlpha:Math.random()*0.5+0.5});
     }
-
     function animateStars() {
-      ctx.clearRect(0, 0, width, height);
-      const time = Date.now();
-      // Parallax based on cursor
-      const parallaxX = (mouseX - width / 2) * 0.02;
-      const parallaxY = (mouseY - height / 2) * 0.02;
-
+      ctx.clearRect(0,0,width,height);
+      const time=Date.now(), parallaxX=(mouseX-width/2)*0.02, parallaxY=(mouseY-height/2)*0.02;
       for (let s of stars) {
-        // drift right
-        s.x += DRIFT_SPEED;
-        if (s.x > width + 5) s.x = -5;
-        // twinkle
-        const alpha = s.baseAlpha + Math.sin(time * 0.002 + s.x * 0.05) * 0.3;
-        ctx.fillStyle = `rgba(255,255,255,${alpha})`;
-        ctx.beginPath();
-        ctx.arc(s.x + parallaxX, s.y + parallaxY, s.size, 0, Math.PI * 2);
-        ctx.fill();
+        s.x+=DRIFT_SPEED; if (s.x>width+5) s.x=-5;
+        const alpha=s.baseAlpha+Math.sin(time*0.002+s.x*0.05)*0.3;
+        ctx.fillStyle=`rgba(255,255,255,${alpha})`; ctx.beginPath(); ctx.arc(s.x+parallaxX,s.y+parallaxY,s.size,0,Math.PI*2); ctx.fill();
       }
       requestAnimationFrame(animateStars);
     }
-
-    window.addEventListener('mousemove', e => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-    });
-    window.addEventListener('resize', initStars);
-
-    // kick off
-    initStars();
-    animateStars();
+    window.addEventListener('mousemove',e=>{mouseX=e.clientX;mouseY=e.clientY;});
+    window.addEventListener('resize',initStars);
+    initStars(); animateStars();
   </script>
 </body>
 </html>
