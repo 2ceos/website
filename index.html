@@ -148,34 +148,61 @@
       background: radial-gradient(ellipse at center, rgba(20,20,20,0.8) 0%, rgba(0,0,0,1) 70%);
     }
 
-    /* Nav styling with scroll behavior - FIXED POSITIONING */
+    /* Nav styling with scroll behavior and glass morphism */
     .floating-nav-container { 
       position: fixed; 
       top: 2rem; 
-      left: 50%;
-      transform: translateX(-50%) translateY(0);
+      width: 100%; 
+      display: flex; 
+      justify-content: center; 
       z-index: 20;
+      transform: translateY(0);
       transition: transform 0.3s ease;
     }
     .floating-nav-container.hidden {
-      transform: translateX(-50%) translateY(-120px);
+      transform: translateY(-120px);
     }
     .floating-nav { 
-      background: rgba(26,26,26,0.8); 
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       padding: 1rem 3rem; 
       border-radius: 999px; 
-      box-shadow: 0 8px 20px rgba(0,0,0,0.5); 
-      backdrop-filter: blur(6px); 
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.3),
+        0 0 0 1px rgba(255, 255, 255, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
       display: flex; 
       gap: 3rem; 
-      transition: box-shadow 0.3s ease; 
+      transition: all 0.3s ease; 
       white-space: nowrap;
     }
-    .floating-nav:hover { box-shadow: 0 0 12px rgba(255,255,255,0.4), 0 0 4px 2px rgba(255,255,255,0.5); }
+    .floating-nav::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+      border-radius: 999px;
+    }
+    .floating-nav:hover::before {
+      opacity: 1;
+    }
+    .floating-nav:hover { 
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
     .floating-nav a { text-decoration: none; color: var(--accent); font-weight: 600; font-size: 1.2rem; transition: color 0.3s ease; }
     .floating-nav a:hover { color: var(--text); }
 
-    /* Header with scroll behavior - FIXED POSITIONING */
+    /* Header with scroll behavior */
     header { 
       padding: 2rem; 
       z-index: 20; 
@@ -196,6 +223,13 @@
     }
     header h1:hover {
       text-shadow: 0 0 10px rgba(255,255,255,0.6);
+    }
+
+    /* Hide header on mobile */
+    @media (max-width: 768px) {
+      header {
+        display: none;
+      }
     }
 
     /* Typewriter and glow */
@@ -322,7 +356,7 @@
       width: 100%;
       max-width: 600px;
       height: 400px;
-      margin: 0 auto;
+      margin: 0 auto 2rem;
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 20px;
@@ -339,6 +373,39 @@
 
     .typeform-container:hover {
       transform: translateY(-2px);
+    }
+
+    /* Fullscreen button */
+    .fullscreen-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text);
+      padding: 0.8rem 2rem;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      transition: all 0.3s ease;
+      margin: 0 auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 
+        0 8px 20px rgba(0, 0, 0, 0.2),
+        0 0 0 1px rgba(255, 255, 255, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+
+    .fullscreen-btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+      box-shadow: 
+        0 12px 30px rgba(0, 0, 0, 0.3),
+        0 0 0 1px rgba(255, 255, 255, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
     }
 
     /* Fullscreen Typeform Modal */
@@ -429,7 +496,6 @@
       .floating-nav a { font-size: 0.9rem; }
       .typeform-container { height: 300px; }
       .typeform-modal-content { width: 98%; height: 90%; }
-      header h1 { font-size: 2rem; }
     }
   </style>
 </head>
@@ -477,7 +543,6 @@
         <div class="answer">We offer brand strategy, web design, and digital marketing to help businesses scale effectively.</div>
       </div>
       <div class="faq-card">
-        <div class="card-number">2</div>
         <div class="question">How can I get started?</div>
         <div class="answer">Click the "Get Started" button above or contact us directly via the Contact link.</div>
       </div>
@@ -511,6 +576,10 @@
     <div class="typeform-container" onclick="openTypeformModal()">
       <div data-tf-live="01JZ2J55KH81A84PHYHD24TXC4"></div>
     </div>
+    <button class="fullscreen-btn" onclick="openTypeformModal()">
+      <span>📱</span>
+      Open Fullscreen
+    </button>
   </section>
 
   <!-- Fullscreen Typeform Modal -->
@@ -713,6 +782,16 @@
         card.style.setProperty('--mouse-x', `${x}%`);
         card.style.setProperty('--mouse-y', `${y}%`);
       });
+    });
+
+    // Mouse tracking for navigation glow effect
+    document.querySelector('.floating-nav').addEventListener('mousemove', (e) => {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 100;
+      const y = ((e.clientY - rect.top) / rect.height) * 100;
+      
+      e.currentTarget.style.setProperty('--mouse-x', `${x}%`);
+      e.currentTarget.style.setProperty('--mouse-y', `${y}%`);
     });
 
     // Starfield
