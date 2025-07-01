@@ -135,6 +135,7 @@
       color: var(--accent);
       opacity: 0.8;
       transition: opacity 0.3s ease;
+      text-align: center;
     }
 
     /* Starfield with vignette */
@@ -331,9 +332,12 @@
     /* Portfolio Section */
     .portfolio-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(3, 1fr);
       gap: 2rem;
       margin-top: 3rem;
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
     }
     .portfolio-item {
       background: rgba(255, 255, 255, 0.05);
@@ -344,7 +348,7 @@
       overflow: hidden;
       transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       position: relative;
-      height: 300px;
+      aspect-ratio: 4/5;
       cursor: pointer;
     }
     .portfolio-item::before {
@@ -358,6 +362,7 @@
       opacity: 0;
       transition: opacity 0.3s ease;
       pointer-events: none;
+      z-index: 2;
     }
     .portfolio-item:hover::before {
       opacity: 1;
@@ -371,32 +376,144 @@
         0 0 0 1px rgba(255, 255, 255, 0.1),
         inset 0 1px 0 rgba(255, 255, 255, 0.2);
     }
-    .portfolio-content {
-      padding: 2rem;
+    .portfolio-image {
+      width: 100%;
       height: 100%;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .portfolio-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.7) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1;
+    }
+    .portfolio-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: white;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+      text-align: center;
+      z-index: 2;
+      position: relative;
+    }
+
+    /* Portfolio Fullscreen Modal */
+    .portfolio-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .portfolio-modal.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .portfolio-modal-content {
+      width: 90%;
+      max-width: 900px;
+      height: 80%;
+      max-height: 700px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      overflow: hidden;
+      transform: scale(0.8) translateY(50px);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      text-align: center;
     }
-    .portfolio-item h3 {
-      font-size: 1.4rem;
+
+    .portfolio-modal.active .portfolio-modal-content {
+      transform: scale(1) translateY(0);
+    }
+
+    .portfolio-modal-image {
+      flex: 1;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+
+    .portfolio-modal-info {
+      padding: 2rem;
+      background: rgba(0, 0, 0, 0.3);
+    }
+
+    .portfolio-modal-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--text);
       margin-bottom: 1rem;
-      color: var(--text);
     }
-    .portfolio-item p {
-      font-size: 0.95rem;
+
+    .portfolio-modal-description {
+      font-size: 1.1rem;
       color: var(--accent);
-      line-height: 1.5;
+      line-height: 1.6;
+      margin-bottom: 1rem;
     }
-    .portfolio-tag {
-      display: inline-block;
+
+    .portfolio-modal-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .portfolio-modal-tag {
       background: rgba(255, 255, 255, 0.1);
-      padding: 0.3rem 0.8rem;
+      padding: 0.4rem 1rem;
       border-radius: 12px;
-      font-size: 0.8rem;
-      margin: 0.5rem 0.2rem 0 0;
+      font-size: 0.9rem;
       color: var(--text);
+    }
+
+    .portfolio-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 40px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--text);
+      font-size: 20px;
+      z-index: 1001;
+      transition: all 0.3s ease;
+    }
+
+    .portfolio-close:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: scale(1.1);
     }
 
     /* Modern Glass FAQ Cards - More cards per row */
@@ -630,7 +747,8 @@
       .typeform-container { max-width: 100%; height: 350px; }
       .typeform-modal-content { width: 95%; height: 85%; }
       .about-content { grid-template-columns: 1fr; }
-      .portfolio-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+      .portfolio-grid { grid-template-columns: repeat(2, 1fr); }
+      .portfolio-modal-content { width: 95%; height: 85%; }
     }
     @media (max-width:500px){ 
       .hero h2{font-size:2.2rem;} 
@@ -644,6 +762,8 @@
       .typeform-container { height: 300px; }
       .typeform-modal-content { width: 98%; height: 90%; }
       .portfolio-grid { grid-template-columns: 1fr; }
+      .portfolio-modal-info { padding: 1.5rem; }
+      .portfolio-modal-title { font-size: 1.5rem; }
     }
   </style>
 </head>
@@ -707,70 +827,40 @@
     <h2>Portfolio</h2>
     <p>Explore our recent work and see how we've helped ambitious brands achieve remarkable growth through strategic design, targeted marketing, and innovative solutions.</p>
     <div class="portfolio-grid">
-      <div class="portfolio-item">
-        <div class="portfolio-content">
-          <h3>E-commerce Brand</h3>
-          <p>Transformed a startup into a 7-figure business through strategic branding and performance marketing campaigns.</p>
-          <div>
-            <span class="portfolio-tag">Branding</span>
-            <span class="portfolio-tag">E-commerce</span>
-            <span class="portfolio-tag">Growth</span>
-          </div>
+      <div class="portfolio-item" onclick="openPortfolioModal('bloom')">
+        <div class="portfolio-image" style="background-image: linear-gradient(135deg, #81C784 0%, #4CAF50 100%);">
+          <div class="portfolio-overlay"></div>
+          <div class="portfolio-title">bloom</div>
         </div>
       </div>
-      <div class="portfolio-item">
-        <div class="portfolio-content">
-          <h3>SaaS Platform</h3>
-          <p>Redesigned user experience and implemented conversion optimization strategies that increased signups by 300%.</p>
-          <div>
-            <span class="portfolio-tag">UX Design</span>
-            <span class="portfolio-tag">SaaS</span>
-            <span class="portfolio-tag">Conversion</span>
-          </div>
+      <div class="portfolio-item" onclick="openPortfolioModal('vivid')">
+        <div class="portfolio-image" style="background-image: linear-gradient(135deg, #9C27B0 0%, #673AB7 100%);">
+          <div class="portfolio-overlay"></div>
+          <div class="portfolio-title">vivid</div>
         </div>
       </div>
-      <div class="portfolio-item">
-        <div class="portfolio-content">
-          <h3>Tech Startup</h3>
-          <p>Built comprehensive brand identity and go-to-market strategy that secured $2M in Series A funding.</p>
-          <div>
-            <span class="portfolio-tag">Startup</span>
-            <span class="portfolio-tag">Strategy</span>
-            <span class="portfolio-tag">Funding</span>
-          </div>
+      <div class="portfolio-item" onclick="openPortfolioModal('petaled')">
+        <div class="portfolio-image" style="background-image: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);">
+          <div class="portfolio-overlay"></div>
+          <div class="portfolio-title">petaled</div>
         </div>
       </div>
-      <div class="portfolio-item">
-        <div class="portfolio-content">
-          <h3>Health & Wellness</h3>
-          <p>Created engaging content strategy and social media campaigns that grew community by 500% in 6 months.</p>
-          <div>
-            <span class="portfolio-tag">Content</span>
-            <span class="portfolio-tag">Social Media</span>
-            <span class="portfolio-tag">Community</span>
-          </div>
+      <div class="portfolio-item" onclick="openPortfolioModal('nexus')">
+        <div class="portfolio-image" style="background-image: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);">
+          <div class="portfolio-overlay"></div>
+          <div class="portfolio-title">nexus</div>
         </div>
       </div>
-      <div class="portfolio-item">
-        <div class="portfolio-content">
-          <h3>Financial Services</h3>
-          <p>Developed trust-building brand strategy and compliance-focused marketing that doubled client acquisition.</p>
-          <div>
-            <span class="portfolio-tag">Finance</span>
-            <span class="portfolio-tag">Trust</span>
-            <span class="portfolio-tag">Compliance</span>
-          </div>
+      <div class="portfolio-item" onclick="openPortfolioModal('zenith')">
+        <div class="portfolio-image" style="background-image: linear-gradient(135deg, #E91E63 0%, #C2185B 100%);">
+          <div class="portfolio-overlay"></div>
+          <div class="portfolio-title">zenith</div>
         </div>
       </div>
-      <div class="portfolio-item">
-        <div class="portfolio-content">
-          <h3>Fashion Brand</h3>
-          <p>Launched influencer marketing campaigns and brand partnerships that achieved 400% ROI in first quarter.</p>
-          <div>
-            <span class="portfolio-tag">Fashion</span>
-            <span class="portfolio-tag">Influencer</span>
-            <span class="portfolio-tag">ROI</span>
-          </div>
+      <div class="portfolio-item" onclick="openPortfolioModal('flux')">
+        <div class="portfolio-image" style="background-image: linear-gradient(135deg, #00BCD4 0%, #0097A7 100%);">
+          <div class="portfolio-overlay"></div>
+          <div class="portfolio-title">flux</div>
         </div>
       </div>
     </div>
@@ -830,6 +920,19 @@
     </button>
   </section>
 
+  <!-- Portfolio Fullscreen Modal -->
+  <div class="portfolio-modal" id="portfolio-modal">
+    <div class="portfolio-modal-content">
+      <div class="portfolio-close" onclick="closePortfolioModal()">×</div>
+      <div class="portfolio-modal-image" id="portfolio-modal-image"></div>
+      <div class="portfolio-modal-info">
+        <div class="portfolio-modal-title" id="portfolio-modal-title"></div>
+        <div class="portfolio-modal-description" id="portfolio-modal-description"></div>
+        <div class="portfolio-modal-tags" id="portfolio-modal-tags"></div>
+      </div>
+    </div>
+  </div>
+
   <!-- Fullscreen Typeform Modal -->
   <div class="typeform-modal" id="typeform-modal">
     <div class="typeform-modal-content">
@@ -842,6 +945,46 @@
 
   <script src="//embed.typeform.com/next/embed.js"></script>
   <script>
+    // Portfolio data
+    const portfolioData = {
+      bloom: {
+        title: "Bloom",
+        description: "A sustainable beauty brand that grew from startup to 7-figure business in 18 months. We developed their complete brand identity, e-commerce platform, and performance marketing strategy that resulted in 400% year-over-year growth.",
+        tags: ["Branding", "E-commerce", "Sustainability", "Beauty"],
+        background: "linear-gradient(135deg, #81C784 0%, #4CAF50 100%)"
+      },
+      vivid: {
+        title: "Vivid",
+        description: "A creative agency specializing in immersive digital experiences. We redesigned their portfolio website and implemented a content strategy that increased client inquiries by 300% and helped them secure partnerships with Fortune 500 companies.",
+        tags: ["Web Design", "Creative", "Digital", "Portfolio"],
+        background: "linear-gradient(135deg, #9C27B0 0%, #673AB7 100%)"
+      },
+      petaled: {
+        title: "Petaled",
+        description: "An artisanal flower delivery service that needed to compete with major players. Our brand strategy and local marketing campaigns helped them capture 25% market share in their city and expand to three new markets.",
+        tags: ["Local Business", "Floral", "Marketing", "Growth"],
+        background: "linear-gradient(135deg, #FF9800 0%, #F57C00 100%)"
+      },
+      nexus: {
+        title: "Nexus",
+        description: "A B2B SaaS platform connecting freelancers with enterprises. We optimized their conversion funnel and implemented targeted advertising that reduced customer acquisition cost by 60% while doubling monthly recurring revenue.",
+        tags: ["SaaS", "B2B", "Conversion", "Technology"],
+        background: "linear-gradient(135deg, #2196F3 0%, #1976D2 100%)"
+      },
+      zenith: {
+        title: "Zenith",
+        description: "A luxury fitness brand targeting high-net-worth individuals. Our premium positioning strategy and influencer partnerships resulted in a 500% increase in membership value and expansion to five new locations.",
+        tags: ["Luxury", "Fitness", "Premium", "Lifestyle"],
+        background: "linear-gradient(135deg, #E91E63 0%, #C2185B 100%)"
+      },
+      flux: {
+        title: "Flux",
+        description: "A fintech startup revolutionizing cryptocurrency trading. We built their brand from the ground up and created educational content that attracted 100K+ users in the first quarter and secured $5M in Series A funding.",
+        tags: ["Fintech", "Crypto", "Startup", "Education"],
+        background: "linear-gradient(135deg, #00BCD4 0%, #0097A7 100%)"
+      }
+    };
+
     // Scroll behavior variables
     let lastScrollTop = 0;
     let scrollThreshold = 10;
@@ -932,6 +1075,36 @@
       }
     }
 
+    // Portfolio modal functions
+    function openPortfolioModal(projectId) {
+      const modal = document.getElementById('portfolio-modal');
+      const data = portfolioData[projectId];
+      
+      if (data) {
+        document.getElementById('portfolio-modal-image').style.backgroundImage = data.background;
+        document.getElementById('portfolio-modal-title').textContent = data.title;
+        document.getElementById('portfolio-modal-description').textContent = data.description;
+        
+        const tagsContainer = document.getElementById('portfolio-modal-tags');
+        tagsContainer.innerHTML = '';
+        data.tags.forEach(tag => {
+          const tagElement = document.createElement('span');
+          tagElement.className = 'portfolio-modal-tag';
+          tagElement.textContent = tag;
+          tagsContainer.appendChild(tagElement);
+        });
+        
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    function closePortfolioModal() {
+      const modal = document.getElementById('portfolio-modal');
+      modal.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+
     // Typeform modal functions
     function openTypeformModal() {
       const modal = document.getElementById('typeform-modal');
@@ -945,16 +1118,23 @@
       document.body.style.overflow = 'auto';
     }
 
-    // Close modal when clicking outside
+    // Close modals when clicking outside
+    document.getElementById('portfolio-modal').addEventListener('click', (e) => {
+      if (e.target.classList.contains('portfolio-modal')) {
+        closePortfolioModal();
+      }
+    });
+
     document.getElementById('typeform-modal').addEventListener('click', (e) => {
       if (e.target.classList.contains('typeform-modal')) {
         closeTypeformModal();
       }
     });
 
-    // Close modal with escape key
+    // Close modals with escape key
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
+        closePortfolioModal();
         closeTypeformModal();
       }
     });
