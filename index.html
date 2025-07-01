@@ -128,8 +128,8 @@
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(10px); }
     }
-    /* FAQ Indicator Text */
-    .faq-indicator {
+    /* Section Indicator Text */
+    .section-indicator {
       margin-top: 1rem;
       font-size: 1.2rem;
       color: var(--accent);
@@ -199,7 +199,7 @@
       border-color: rgba(255, 255, 255, 0.2);
       transform: translateY(-2px);
     }
-    .floating-nav a { text-decoration: none; color: var(--accent); font-weight: 600; font-size: 1.2rem; transition: color 0.3s ease; }
+    .floating-nav a { text-decoration: none; color: var(--accent); font-weight: 600; font-size: 1.2rem; transition: color 0.3s ease; cursor: pointer; }
     .floating-nav a:hover { color: var(--text); }
 
     /* Header with scroll behavior */
@@ -253,6 +253,151 @@
 
     /* Divider */
     .divider { width: 80%; max-width: 800px; margin: 4rem auto; border: none; height: 1px; background: var(--accent); }
+
+    /* Section Styling */
+    .section { 
+      padding: 4rem 2rem; 
+      max-width: 1400px; 
+      margin: 0 auto; 
+      text-align: center;
+      position: relative;
+    }
+    .section h2 { 
+      font-size: 2.5rem; 
+      margin-bottom: 3rem; 
+      color: var(--text);
+    }
+    .section p {
+      font-size: 1.2rem;
+      color: var(--accent);
+      max-width: 800px;
+      margin: 0 auto 2rem;
+      line-height: 1.6;
+    }
+
+    /* About Section */
+    .about-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+    .about-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      padding: 2rem;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    .about-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+    .about-card:hover::before {
+      opacity: 1;
+    }
+    .about-card:hover {
+      transform: translateY(-8px);
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.2);
+      box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.3),
+        0 0 0 1px rgba(255, 255, 255, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+    .about-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+    .about-card p {
+      font-size: 1rem;
+      color: var(--accent);
+      line-height: 1.5;
+    }
+
+    /* Portfolio Section */
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+    .portfolio-item {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      height: 300px;
+      cursor: pointer;
+    }
+    .portfolio-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+    .portfolio-item:hover::before {
+      opacity: 1;
+    }
+    .portfolio-item:hover {
+      transform: translateY(-8px);
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.2);
+      box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.3),
+        0 0 0 1px rgba(255, 255, 255, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+    .portfolio-content {
+      padding: 2rem;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+    }
+    .portfolio-item h3 {
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+    .portfolio-item p {
+      font-size: 0.95rem;
+      color: var(--accent);
+      line-height: 1.5;
+    }
+    .portfolio-tag {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 0.3rem 0.8rem;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      margin: 0.5rem 0.2rem 0 0;
+      color: var(--text);
+    }
 
     /* Modern Glass FAQ Cards - More cards per row */
     .faq { padding: 2rem; max-width: 1400px; margin: 0 auto 4rem; }
@@ -484,6 +629,8 @@
       .floating-nav a { font-size: 1rem; }
       .typeform-container { max-width: 100%; height: 350px; }
       .typeform-modal-content { width: 95%; height: 85%; }
+      .about-content { grid-template-columns: 1fr; }
+      .portfolio-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
     }
     @media (max-width:500px){ 
       .hero h2{font-size:2.2rem;} 
@@ -496,6 +643,7 @@
       .floating-nav a { font-size: 0.9rem; }
       .typeform-container { height: 300px; }
       .typeform-modal-content { width: 98%; height: 90%; }
+      .portfolio-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -513,10 +661,9 @@
 
   <div class="floating-nav-container fade-in-up">
     <div class="floating-nav">
-      <a href="#contact">Contact</a>
-      <a href="#portfolio">Portfolio</a>
-      <a href="#about">About</a>
-      <a href="#about">Apply</a>
+      <a onclick="scrollToSection('portfolio')">Portfolio</a>
+      <a onclick="scrollToSection('about')">About</a>
+      <a onclick="scrollToSection('contact')">Apply</a>
     </div>
   </div>
   <header class="fade-in-up">
@@ -528,10 +675,108 @@
     </div>
     <h2>Scale Your Business</h2>
     <p>At 2CEOs, we specialize in scaling ambitious brands with a unique blend of creative strategy, high-converting advertising, and expert brand consulting. We transform promising businesses into market leaders by crafting standout visuals, optimizing performance marketing, and building systems that fuel sustainable growth. Whether you're launching your first product or leveling up your business, we'll help you hit the next milestone.</p>
-    <button onclick="scrollToContact()">Get Started</button>
+    <button onclick="scrollToSection('about')">Get Started</button>
     <div class="scroll-indicator">⌄</div>
-    <div class="faq-indicator">FAQ</div>
+    <div class="section-indicator">About</div>
   </main>
+
+  <hr class="divider fade-on-scroll">
+  <section id="about" class="section about fade-on-scroll">
+    <h2>About</h2>
+    <p>We are a dynamic duo of creative strategists and growth experts who believe that every ambitious brand deserves to reach its full potential. Our approach combines data-driven insights with creative excellence to deliver results that matter.</p>
+    <div class="about-content">
+      <div class="about-card">
+        <h3>Creative Strategy</h3>
+        <p>We craft compelling brand narratives and visual identities that resonate with your target audience and differentiate you from the competition.</p>
+      </div>
+      <div class="about-card">
+        <h3>Performance Marketing</h3>
+        <p>Our data-driven approach to advertising ensures every dollar spent contributes to measurable growth and sustainable business outcomes.</p>
+      </div>
+      <div class="about-card">
+        <h3>Brand Consulting</h3>
+        <p>We provide strategic guidance to help you navigate market challenges and capitalize on opportunities for exponential growth.</p>
+      </div>
+    </div>
+    <div class="scroll-indicator">⌄</div>
+    <div class="section-indicator">Portfolio</div>
+  </section>
+
+  <hr class="divider fade-on-scroll">
+  <section id="portfolio" class="section portfolio fade-on-scroll">
+    <h2>Portfolio</h2>
+    <p>Explore our recent work and see how we've helped ambitious brands achieve remarkable growth through strategic design, targeted marketing, and innovative solutions.</p>
+    <div class="portfolio-grid">
+      <div class="portfolio-item">
+        <div class="portfolio-content">
+          <h3>E-commerce Brand</h3>
+          <p>Transformed a startup into a 7-figure business through strategic branding and performance marketing campaigns.</p>
+          <div>
+            <span class="portfolio-tag">Branding</span>
+            <span class="portfolio-tag">E-commerce</span>
+            <span class="portfolio-tag">Growth</span>
+          </div>
+        </div>
+      </div>
+      <div class="portfolio-item">
+        <div class="portfolio-content">
+          <h3>SaaS Platform</h3>
+          <p>Redesigned user experience and implemented conversion optimization strategies that increased signups by 300%.</p>
+          <div>
+            <span class="portfolio-tag">UX Design</span>
+            <span class="portfolio-tag">SaaS</span>
+            <span class="portfolio-tag">Conversion</span>
+          </div>
+        </div>
+      </div>
+      <div class="portfolio-item">
+        <div class="portfolio-content">
+          <h3>Tech Startup</h3>
+          <p>Built comprehensive brand identity and go-to-market strategy that secured $2M in Series A funding.</p>
+          <div>
+            <span class="portfolio-tag">Startup</span>
+            <span class="portfolio-tag">Strategy</span>
+            <span class="portfolio-tag">Funding</span>
+          </div>
+        </div>
+      </div>
+      <div class="portfolio-item">
+        <div class="portfolio-content">
+          <h3>Health & Wellness</h3>
+          <p>Created engaging content strategy and social media campaigns that grew community by 500% in 6 months.</p>
+          <div>
+            <span class="portfolio-tag">Content</span>
+            <span class="portfolio-tag">Social Media</span>
+            <span class="portfolio-tag">Community</span>
+          </div>
+        </div>
+      </div>
+      <div class="portfolio-item">
+        <div class="portfolio-content">
+          <h3>Financial Services</h3>
+          <p>Developed trust-building brand strategy and compliance-focused marketing that doubled client acquisition.</p>
+          <div>
+            <span class="portfolio-tag">Finance</span>
+            <span class="portfolio-tag">Trust</span>
+            <span class="portfolio-tag">Compliance</span>
+          </div>
+        </div>
+      </div>
+      <div class="portfolio-item">
+        <div class="portfolio-content">
+          <h3>Fashion Brand</h3>
+          <p>Launched influencer marketing campaigns and brand partnerships that achieved 400% ROI in first quarter.</p>
+          <div>
+            <span class="portfolio-tag">Fashion</span>
+            <span class="portfolio-tag">Influencer</span>
+            <span class="portfolio-tag">ROI</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-indicator">⌄</div>
+    <div class="section-indicator">FAQ</div>
+  </section>
 
   <hr class="divider fade-on-scroll">
   <section id="faq" class="faq fade-on-scroll">
@@ -543,8 +788,9 @@
         <div class="answer">We offer brand strategy, web design, and digital marketing to help businesses scale effectively.</div>
       </div>
       <div class="faq-card">
+        <div class="card-number">2</div>
         <div class="question">How can I get started?</div>
-        <div class="answer">Click the "Get Started" button above or contact us directly via the Contact link.</div>
+        <div class="answer">Click the "Get Started" button above or contact us directly via the Apply button.</div>
       </div>
       <div class="faq-card">
         <div class="card-number">3</div>
@@ -567,11 +813,13 @@
         <div class="answer">Yes, we work with clients worldwide and adapt to different time zones.</div>
       </div>
     </div>
+    <div class="scroll-indicator">⌄</div>
+    <div class="section-indicator">Apply</div>
   </section>
 
   <hr class="divider fade-on-scroll">
   <section id="contact" class="contact fade-on-scroll">
-    <h2>Contact</h2>
+    <h2>Apply</h2>
     <p>Ready to scale your business? Get in touch with us and let's discuss how we can help you achieve your goals.</p>
     <div class="typeform-container" onclick="openTypeformModal()">
       <div data-tf-live="01JZ2J55KH81A84PHYHD24TXC4"></div>
@@ -596,20 +844,17 @@
   <script>
     // Scroll behavior variables
     let lastScrollTop = 0;
-    let scrollThreshold = 10; // Reduced threshold for easier testing
+    let scrollThreshold = 10;
 
     // Check if this is a fresh visit or navigation
     function shouldShowIntro() {
-      // Check if user came from another page on the same domain
       const referrer = document.referrer;
       const currentDomain = window.location.hostname;
       
-      // If there's a referrer and it's from the same domain, skip intro
       if (referrer && referrer.includes(currentDomain)) {
         return false;
       }
       
-      // Check session storage to see if intro was already shown
       const introShown = sessionStorage.getItem('introShown');
       if (introShown === 'true') {
         return false;
@@ -621,7 +866,6 @@
     // Initialize page
     function initializePage() {
       if (!shouldShowIntro()) {
-        // Skip intro, go straight to main content
         const overlay = document.getElementById('intro-overlay');
         if (overlay) {
           overlay.remove();
@@ -630,7 +874,6 @@
         startTypewriter();
         initScrollBehavior();
       } else {
-        // Show intro sequence
         const logoEl = document.querySelector('.intro-logo');
         const btnEl = document.querySelector('.enter-btn');
         setTimeout(() => logoEl && logoEl.classList.add('fade-in'), 100);
@@ -647,26 +890,21 @@
       window.addEventListener('scroll', () => {
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         
-        // Show/hide gradient overlay
         if (scrollTop > scrollThreshold) {
           scrollGradient.classList.add('visible');
         } else {
           scrollGradient.classList.remove('visible');
         }
         
-        // Apply scroll behavior - hide when scrolling down, show when scrolling up
         if (scrollTop > scrollThreshold) {
           if (scrollTop > lastScrollTop) {
-            // Scrolling down - hide elements
             navContainer.classList.add('hidden');
             header.classList.add('hidden');
           } else {
-            // Scrolling up - show elements
             navContainer.classList.remove('hidden');
             header.classList.remove('hidden');
           }
         } else {
-          // At top of page - always show elements
           navContainer.classList.remove('hidden');
           header.classList.remove('hidden');
         }
@@ -677,23 +915,20 @@
 
     // Home navigation function
     function navigateHome() {
-      // Set flag to skip intro on navigation
       sessionStorage.setItem('introShown', 'true');
       
-      // If we're already on the home page, just scroll to top
       if (window.location.pathname === '/' || window.location.pathname.includes('index')) {
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
-        // Navigate to home page (adjust URL as needed)
         window.location.href = 'https://2ceos.com';
       }
     }
 
-    // Scroll to contact section
-    function scrollToContact() {
-      const contactSection = document.getElementById('contact');
-      if (contactSection) {
-        contactSection.scrollIntoView({ behavior: 'smooth' });
+    // Smooth scroll to section
+    function scrollToSection(sectionId) {
+      const section = document.getElementById(sectionId);
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth' });
       }
     }
 
@@ -701,13 +936,13 @@
     function openTypeformModal() {
       const modal = document.getElementById('typeform-modal');
       modal.classList.add('active');
-      document.body.style.overflow = 'hidden'; // Prevent background scrolling
+      document.body.style.overflow = 'hidden';
     }
 
     function closeTypeformModal() {
       const modal = document.getElementById('typeform-modal');
       modal.classList.remove('active');
-      document.body.style.overflow = 'auto'; // Restore scrolling
+      document.body.style.overflow = 'auto';
     }
 
     // Close modal when clicking outside
@@ -732,7 +967,7 @@
       const typeEl = document.getElementById('typewriter');
       const cursorEl = document.getElementById('cursor');
       
-      if (!typeEl) return; // Guard against missing element
+      if (!typeEl) return;
       
       let i = 0;
       function type() {
@@ -748,7 +983,6 @@
 
     // Click to enter: flash then hide overlay
     enterEls.forEach(el => el.addEventListener('click', () => {
-      // Mark intro as shown
       sessionStorage.setItem('introShown', 'true');
       
       overlay.classList.add('flash-out');
@@ -756,7 +990,7 @@
         overlay.remove();
         document.body.classList.add('entered');
         startTypewriter();
-        initScrollBehavior(); // Initialize scroll behavior after entering
+        initScrollBehavior();
       }, { once: true });
     }));
 
@@ -772,17 +1006,24 @@
     }, { threshold: 0.1 });
     document.querySelectorAll('.fade-on-scroll').forEach(el => observer.observe(el));
 
-    // Mouse tracking for FAQ card glow effect
-    document.querySelectorAll('.faq-card').forEach(card => {
-      card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = ((e.clientX - rect.left) / rect.width) * 100;
-        const y = ((e.clientY - rect.top) / rect.height) * 100;
-        
-        card.style.setProperty('--mouse-x', `${x}%`);
-        card.style.setProperty('--mouse-y', `${y}%`);
+    // Mouse tracking for interactive cards
+    function addMouseTracking(selector) {
+      document.querySelectorAll(selector).forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = ((e.clientX - rect.left) / rect.width) * 100;
+          const y = ((e.clientY - rect.top) / rect.height) * 100;
+          
+          card.style.setProperty('--mouse-x', `${x}%`);
+          card.style.setProperty('--mouse-y', `${y}%`);
+        });
       });
-    });
+    }
+
+    // Apply mouse tracking to all interactive elements
+    addMouseTracking('.faq-card');
+    addMouseTracking('.about-card');
+    addMouseTracking('.portfolio-item');
 
     // Mouse tracking for navigation glow effect
     document.querySelector('.floating-nav').addEventListener('mousemove', (e) => {
@@ -813,7 +1054,7 @@
         stars.push({
           x: Math.random() * width,
           y: Math.random() * height,
-          z: Math.random() * 1000 + 1, // Depth for parallax
+          z: Math.random() * 1000 + 1,
           size: Math.random() * 1.2 + 0.3,
           baseAlpha: Math.random() * 0.6 + 0.4,
           twinkleSpeed: Math.random() * 0.02 + 0.01
@@ -825,42 +1066,34 @@
       ctx.clearRect(0, 0, width, height);
       const time = Date.now() * 0.001;
       
-      // Smooth mouse following
       mouseX += (targetMouseX - mouseX) * 0.05;
       mouseY += (targetMouseY - mouseY) * 0.05;
       
-      // Enhanced parallax based on cursor with depth
       const parallaxStrength = 0.05;
       const baseParallaxX = (mouseX - width / 2) * parallaxStrength;
       const baseParallaxY = (mouseY - height / 2) * parallaxStrength;
 
       for (let s of stars) {
-        // Drift movement
         s.x += DRIFT_SPEED;
         if (s.x > width + 10) {
           s.x = -10;
           s.y = Math.random() * height;
         }
         
-        // Depth-based parallax
         const depthFactor = s.z / 1000;
         const parallaxX = baseParallaxX * depthFactor;
         const parallaxY = baseParallaxY * depthFactor;
         
-        // Enhanced twinkling
         const twinkle = Math.sin(time * s.twinkleSpeed + s.x * 0.01) * 0.4;
         const alpha = Math.max(0, Math.min(1, s.baseAlpha + twinkle));
         
-        // Size based on depth
         const starSize = s.size * (0.5 + depthFactor * 0.5);
         
-        // White color for stars
         ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
         ctx.beginPath();
         ctx.arc(s.x + parallaxX, s.y + parallaxY, starSize, 0, Math.PI * 2);
         ctx.fill();
         
-        // Add subtle glow for brighter stars
         if (alpha > 0.7) {
           ctx.shadowBlur = 3;
           ctx.shadowColor = `rgba(255, 255, 255, ${alpha * 0.3})`;
@@ -873,32 +1106,25 @@
       requestAnimationFrame(animateStars);
     }
 
-    // Improved mouse tracking for mobile
     function updateMousePosition(e) {
       if (e.touches) {
-        // Touch event
         if (e.touches.length > 0) {
           targetMouseX = e.touches[0].clientX;
           targetMouseY = e.touches[0].clientY;
         }
       } else {
-        // Mouse event
         targetMouseX = e.clientX;
         targetMouseY = e.clientY;
       }
     }
 
-    // Event listeners for both mouse and touch
     window.addEventListener('mousemove', updateMousePosition, { passive: true });
     window.addEventListener('touchmove', updateMousePosition, { passive: true });
     window.addEventListener('touchstart', updateMousePosition, { passive: true });
-    
     window.addEventListener('resize', initStars);
 
-    // Initialize everything when DOM is loaded
     document.addEventListener('DOMContentLoaded', initializePage);
 
-    // Initialize starfield
     initStars();
     animateStars();
   </script>
