@@ -148,19 +148,17 @@
       background: radial-gradient(ellipse at center, rgba(20,20,20,0.8) 0%, rgba(0,0,0,1) 70%);
     }
 
-    /* Nav styling with scroll behavior */
+    /* Nav styling with scroll behavior - FIXED POSITIONING */
     .floating-nav-container { 
       position: fixed; 
       top: 2rem; 
-      width: 100%; 
-      display: flex; 
-      justify-content: center; 
+      left: 50%;
+      transform: translateX(-50%) translateY(0);
       z-index: 20;
-      transform: translateY(0);
       transition: transform 0.3s ease;
     }
     .floating-nav-container.hidden {
-      transform: translateY(-120px);
+      transform: translateX(-50%) translateY(-120px);
     }
     .floating-nav { 
       background: rgba(26,26,26,0.8); 
@@ -171,12 +169,13 @@
       display: flex; 
       gap: 3rem; 
       transition: box-shadow 0.3s ease; 
+      white-space: nowrap;
     }
     .floating-nav:hover { box-shadow: 0 0 12px rgba(255,255,255,0.4), 0 0 4px 2px rgba(255,255,255,0.5); }
     .floating-nav a { text-decoration: none; color: var(--accent); font-weight: 600; font-size: 1.2rem; transition: color 0.3s ease; }
     .floating-nav a:hover { color: var(--text); }
 
-    /* Header with scroll behavior */
+    /* Header with scroll behavior - FIXED POSITIONING */
     header { 
       padding: 2rem; 
       z-index: 20; 
@@ -334,6 +333,78 @@
         0 20px 40px rgba(0, 0, 0, 0.3),
         0 0 0 1px rgba(255, 255, 255, 0.1),
         inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .typeform-container:hover {
+      transform: translateY(-2px);
+    }
+
+    /* Fullscreen Typeform Modal */
+    .typeform-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .typeform-modal.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .typeform-modal-content {
+      width: 90%;
+      max-width: 800px;
+      height: 80%;
+      max-height: 600px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      overflow: hidden;
+      transform: scale(0.8) translateY(50px);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+    }
+
+    .typeform-modal.active .typeform-modal-content {
+      transform: scale(1) translateY(0);
+    }
+
+    .typeform-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 40px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--text);
+      font-size: 20px;
+      z-index: 1001;
+      transition: all 0.3s ease;
+    }
+
+    .typeform-close:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: scale(1.1);
     }
 
     footer { text-align: center; padding: 1.5rem; font-size: 1rem; color: var(--accent); z-index: 10; }
@@ -345,6 +416,7 @@
       .floating-nav { padding: 0.8rem 2rem; gap: 2rem; }
       .floating-nav a { font-size: 1rem; }
       .typeform-container { max-width: 100%; height: 350px; }
+      .typeform-modal-content { width: 95%; height: 85%; }
     }
     @media (max-width:500px){ 
       .hero h2{font-size:2.2rem;} 
@@ -356,6 +428,7 @@
       .floating-nav { padding: 0.6rem 1.5rem; gap: 1.5rem; }
       .floating-nav a { font-size: 0.9rem; }
       .typeform-container { height: 300px; }
+      .typeform-modal-content { width: 98%; height: 90%; }
       header h1 { font-size: 2rem; }
     }
   </style>
@@ -435,10 +508,18 @@
   <section id="contact" class="contact fade-on-scroll">
     <h2>Contact</h2>
     <p>Ready to scale your business? Get in touch with us and let's discuss how we can help you achieve your goals.</p>
-    <div class="typeform-container">
+    <div class="typeform-container" onclick="openTypeformModal()">
       <div data-tf-live="01JZ2J55KH81A84PHYHD24TXC4"></div>
     </div>
   </section>
+
+  <!-- Fullscreen Typeform Modal -->
+  <div class="typeform-modal" id="typeform-modal">
+    <div class="typeform-modal-content">
+      <div class="typeform-close" onclick="closeTypeformModal()">×</div>
+      <div data-tf-live="01JZ2J55KH81A84PHYHD24TXC4"></div>
+    </div>
+  </div>
 
   <footer class="fade-in-up">© 2025 2CEOS. All rights reserved.</footer>
 
@@ -446,7 +527,7 @@
   <script>
     // Scroll behavior variables
     let lastScrollTop = 0;
-    let scrollThreshold = 10;
+    let scrollThreshold = 50; // Reduced threshold for easier testing
 
     // Check if this is a fresh visit or navigation
     function shouldShowIntro() {
@@ -504,7 +585,7 @@
           scrollGradient.classList.remove('visible');
         }
         
-        // Only apply scroll behavior after scrolling past threshold
+        // Apply scroll behavior - hide when scrolling down, show when scrolling up
         if (scrollTop > scrollThreshold) {
           if (scrollTop > lastScrollTop) {
             // Scrolling down - hide elements
@@ -521,8 +602,8 @@
           header.classList.remove('hidden');
         }
         
-        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // For Mobile or negative scrolling
-      });
+        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+      }, { passive: true });
     }
 
     // Home navigation function
@@ -546,6 +627,33 @@
         contactSection.scrollIntoView({ behavior: 'smooth' });
       }
     }
+
+    // Typeform modal functions
+    function openTypeformModal() {
+      const modal = document.getElementById('typeform-modal');
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden'; // Prevent background scrolling
+    }
+
+    function closeTypeformModal() {
+      const modal = document.getElementById('typeform-modal');
+      modal.classList.remove('active');
+      document.body.style.overflow = 'auto'; // Restore scrolling
+    }
+
+    // Close modal when clicking outside
+    document.getElementById('typeform-modal').addEventListener('click', (e) => {
+      if (e.target.classList.contains('typeform-modal')) {
+        closeTypeformModal();
+      }
+    });
+
+    // Close modal with escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeTypeformModal();
+      }
+    });
 
     const overlay = document.getElementById('intro-overlay');
     const enterEls = document.querySelectorAll('.enter-btn, .intro-logo');
