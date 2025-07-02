@@ -115,6 +115,8 @@
       text-align: center;
       padding: 2rem;
       z-index: 5;
+      /* Add padding top on mobile to account for nav bar */
+      padding-top: 8rem;
     }
 
     /* Scroll-down indicator */
@@ -230,6 +232,10 @@
     @media (max-width: 768px) {
       header {
         display: none;
+      }
+      /* Adjust hero padding on mobile to account for nav bar */
+      .hero {
+        padding-top: 6rem;
       }
     }
 
@@ -629,8 +635,16 @@
         0 20px 40px rgba(0, 0, 0, 0.3),
         0 0 0 1px rgba(255, 255, 255, 0.1),
         inset 0 1px 0 rgba(255, 255, 255, 0.2);
-      cursor: pointer;
+      /* Remove cursor pointer and click functionality */
+      cursor: default;
       transition: transform 0.3s ease;
+      /* Disable pointer events to prevent clicking */
+      pointer-events: none;
+    }
+
+    /* Re-enable pointer events for the typeform content inside */
+    .typeform-container > div {
+      pointer-events: auto;
     }
 
     .typeform-container:hover {
@@ -764,6 +778,8 @@
       .portfolio-grid { grid-template-columns: 1fr; }
       .portfolio-modal-info { padding: 1.5rem; }
       .portfolio-modal-title { font-size: 1.5rem; }
+      /* Additional mobile adjustments for typewriter text */
+      #typewriter-container { font-size: 1.8rem; height: 3rem; }
     }
   </style>
 </head>
@@ -906,7 +922,7 @@
   <section id="contact" class="contact fade-on-scroll">
     <h2>Apply</h2>
     <p>Ready to scale your business? Get in touch with us and let's discuss how we can help you achieve your goals.</p>
-    <div class="typeform-container" onclick="openTypeformModal()">
+    <div class="typeform-container">
       <div data-tf-live="01JZ2J55KH81A84PHYHD24TXC4"></div>
     </div>
     <button class="fullscreen-btn" onclick="openTypeformModal()">
