@@ -268,6 +268,8 @@
       margin: 0 auto; 
       text-align: center;
       position: relative;
+      /* Add scroll margin to account for fixed navigation */
+      scroll-margin-top: 120px;
     }
     .section h2 { 
       font-size: 2.5rem; 
@@ -763,6 +765,10 @@
       .about-content { grid-template-columns: 1fr; }
       .portfolio-grid { grid-template-columns: repeat(2, 1fr); }
       .portfolio-modal-content { width: 95%; height: 85%; }
+      /* Adjust scroll margin for mobile */
+      .section {
+        scroll-margin-top: 100px;
+      }
     }
     @media (max-width:500px){ 
       .hero h2{font-size:2.2rem;} 
@@ -780,6 +786,10 @@
       .portfolio-modal-title { font-size: 1.5rem; }
       /* Additional mobile adjustments for typewriter text */
       #typewriter-container { font-size: 1.8rem; height: 3rem; }
+      /* Adjust scroll margin for small mobile */
+      .section {
+        scroll-margin-top: 80px;
+      }
     }
   </style>
 </head>
@@ -799,8 +809,8 @@
     <div class="floating-nav">
       <a onclick="scrollToSection('portfolio')">Portfolio</a>
       <a onclick="scrollToSection('about')">About</a>
-      <a onclick="scrollToSection('contact')">Apply</a>
       <a onclick="scrollToSection('faq')">FAQ</a>
+      <a onclick="scrollToSection('contact')">Apply</a>
     </div>
   </div>
   <header class="fade-in-up">
