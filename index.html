@@ -269,7 +269,7 @@
       text-align: center;
       position: relative;
       /* Add scroll margin to account for fixed navigation */
-      scroll-margin-top: 120px;
+      scroll-margin-top: 140px;
     }
     .section h2 { 
       font-size: 2.5rem; 
@@ -525,7 +525,13 @@
     }
 
     /* Modern Glass FAQ Cards - More cards per row */
-    .faq { padding: 2rem; max-width: 1400px; margin: 0 auto 4rem; }
+    .faq { 
+      padding: 2rem; 
+      max-width: 1400px; 
+      margin: 0 auto 4rem; 
+      /* Add scroll margin to account for fixed navigation */
+      scroll-margin-top: 140px;
+    }
     .faq h2 { font-size: 2.5rem; margin-bottom: 3rem; text-align: center; }
     .faq-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; padding: 1rem; }
     
@@ -608,6 +614,8 @@
       max-width: 1200px; 
       margin: 0 auto; 
       text-align: center;
+      /* Add scroll margin to account for fixed navigation */
+      scroll-margin-top: 140px;
     }
     .contact h2 { 
       font-size: 2.5rem; 
@@ -766,8 +774,8 @@
       .portfolio-grid { grid-template-columns: repeat(2, 1fr); }
       .portfolio-modal-content { width: 95%; height: 85%; }
       /* Adjust scroll margin for mobile */
-      .section {
-        scroll-margin-top: 100px;
+      .section, .faq, .contact {
+        scroll-margin-top: 120px;
       }
     }
     @media (max-width:500px){ 
@@ -787,8 +795,8 @@
       /* Additional mobile adjustments for typewriter text */
       #typewriter-container { font-size: 1.8rem; height: 3rem; }
       /* Adjust scroll margin for small mobile */
-      .section {
-        scroll-margin-top: 80px;
+      .section, .faq, .contact {
+        scroll-margin-top: 100px;
       }
     }
   </style>
@@ -925,8 +933,10 @@
         <div class="answer">We offer flexible pricing based on project scope and business needs.</div>
       </div>
     </div>
-    <div class="scroll-indicator">⌄</div>
-    <div class="section-indicator">Apply</div>
+    <div style="display: flex; flex-direction: column; align-items: center; margin-top: 2rem;">
+      <div class="scroll-indicator">⌄</div>
+      <div class="section-indicator">Apply</div>
+    </div>
   </section>
 
   <hr class="divider fade-on-scroll">
